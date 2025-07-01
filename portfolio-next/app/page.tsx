@@ -51,29 +51,91 @@ export default function Home() {
         </div>
       </section>
       {/* Parcours scolaire */}
-      <section id="parcours" className="w-full max-w-5xl mx-auto px-4 py-16 z-10">
+      <section id="parcours" className="w-full max-w-6xl mx-auto px-4 py-16 z-10">
         <h3 className={`flex items-center gap-2 text-3xl font-bold mb-8 fade-in ${mainText}`}>
           <AcademicCapIcon className="w-8 h-8 text-pink-400 dark:text-white/80" /> Parcours scolaire
         </h3>
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
           {parcours.map((item, i) => (
-            <div key={i} className={`glass p-6 shadow-xl font-semibold fade-in ${mainText}`}>
-              <div className="font-bold text-lg mb-2">{item.titre}</div>
-              <div className={`text-sm ${subText}`}>{item.dates}</div>
+            <div key={i} className={`glass p-8 shadow-xl font-semibold fade-in ${mainText} min-h-[300px] flex flex-col`}>
+              <div className="flex items-start gap-4 mb-4">
+                {item.logo && (
+                  <div className="w-16 h-16 rounded-lg overflow-hidden bg-white/20 backdrop-blur-sm flex-shrink-0">
+                    <Image 
+                      src={item.logo} 
+                      alt={`Logo ${item.titre}`} 
+                      width={64} 
+                      height={64} 
+                      className="object-contain w-full h-full p-2"
+                    />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <div className="font-bold text-xl mb-2">{item.titre}</div>
+                  <div className={`text-sm ${subText} mb-2`}>{item.dates}</div>
+                  {item.description && (
+                    <div className={`text-sm ${subText} leading-relaxed`}>{item.description}</div>
+                  )}
+                </div>
+              </div>
+              {item.image && (
+                <div className="mt-auto">
+                  <div className="w-full h-32 rounded-lg overflow-hidden bg-white/10 backdrop-blur-sm">
+                    <Image 
+                      src={item.image} 
+                      alt={`Image ${item.titre}`} 
+                      width={400} 
+                      height={128} 
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
       </section>
       {/* Expériences */}
-      <section id="experiences" className="w-full max-w-5xl mx-auto px-4 py-16 z-10">
+      <section id="experiences" className="w-full max-w-6xl mx-auto px-4 py-16 z-10">
         <h3 className={`flex items-center gap-2 text-3xl font-bold mb-8 fade-in ${mainText}`}>
           <BriefcaseIcon className="w-8 h-8 text-pink-400 dark:text-white/80" /> Stages & CDD
         </h3>
-        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid gap-8 sm:grid-cols-1 lg:grid-cols-2">
           {experiences.map((item, i) => (
-            <div key={i} className={`glass p-6 shadow-xl font-semibold fade-in ${mainText}`}>
-              <div className="font-bold text-lg mb-2">{item.titre}</div>
-              <div className={`text-sm ${subText}`}>{item.dates}</div>
+            <div key={i} className={`glass p-8 shadow-xl font-semibold fade-in ${mainText} min-h-[300px] flex flex-col`}>
+              <div className="flex items-start gap-4 mb-4">
+                {item.logo && (
+                  <div className="w-16 h-16 rounded-lg overflow-hidden bg-white/20 backdrop-blur-sm flex-shrink-0">
+                    <Image 
+                      src={item.logo} 
+                      alt={`Logo ${item.titre}`} 
+                      width={64} 
+                      height={64} 
+                      className="object-contain w-full h-full p-2"
+                    />
+                  </div>
+                )}
+                <div className="flex-1">
+                  <div className="font-bold text-xl mb-2">{item.titre}</div>
+                  <div className={`text-sm ${subText} mb-2`}>{item.dates}</div>
+                  {item.description && (
+                    <div className={`text-sm ${subText} leading-relaxed`}>{item.description}</div>
+                  )}
+                </div>
+              </div>
+              {item.image && (
+                <div className="mt-auto">
+                  <div className="w-full h-32 rounded-lg overflow-hidden bg-white/10 backdrop-blur-sm">
+                    <Image 
+                      src={item.image} 
+                      alt={`Image ${item.titre}`} 
+                      width={400} 
+                      height={128} 
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </div>
