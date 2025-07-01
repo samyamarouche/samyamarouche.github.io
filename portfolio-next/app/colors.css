@@ -1,0 +1,95 @@
+/* ===== COLOR CONFIGURATION ===== */
+
+/* Light Mode Colors */
+:root {
+  /* Background gradients */
+  --light-bg-from: #aeefff;
+  --light-bg-via: #e0f7ff;
+  --light-bg-to: #e0eafc;
+  
+  /* Cloud colors */
+  --light-cloud-main: #fff;
+  --light-cloud-stroke: #fff;
+  --light-cloud-shadow: #e0eafc88;
+  
+  /* Cloud inner gradient */
+  --light-cloud-inner-1: #ff7fcf;
+  --light-cloud-inner-2: #ffb3de;
+  --light-cloud-inner-3: #fff;
+  --light-cloud-inner-4: #fff;
+  
+  /* Glass card colors */
+  --light-glass-bg: rgba(255, 255, 255, 0.18);
+  --light-glass-border: rgba(255, 255, 255, 0.35);
+  --light-glass-outline: rgba(200, 150, 255, 0.18);
+  --light-glass-shadow-1: rgba(31, 38, 135, 0.18);
+  --light-glass-shadow-2: rgba(255, 255, 255, 0.25);
+  --light-glass-shadow-3: rgba(120, 80, 255, 0.10);
+  
+  /* Glass hover colors */
+  --light-glass-hover-bg: rgba(255, 255, 255, 0.55);
+  --light-glass-hover-shadow-1: rgba(31, 38, 135, 0.25);
+  --light-glass-hover-shadow-2: rgba(255, 255, 255, 0.35);
+  --light-glass-hover-shadow-3: rgba(120, 80, 255, 0.18);
+  
+  /* Glass gradient border */
+  --light-glass-gradient-1: #ffb3de;
+  --light-glass-gradient-2: #b3c6ff;
+  
+  /* Glass shine effect */
+  --light-glass-shine-1: rgba(255, 180, 255, 0.10);
+  --light-glass-shine-2: rgba(255, 120, 220, 0.18);
+  --light-glass-shine-3: rgba(255, 255, 255, 0.12);
+  --light-glass-shine-4: rgba(255, 200, 230, 0.10);
+  
+  /* Glass hover shine */
+  --light-glass-hover-shine-1: rgba(255, 180, 255, 0.32);
+  --light-glass-hover-shine-2: rgba(255, 120, 220, 0.38);
+  --light-glass-hover-shine-3: rgba(255, 255, 255, 0.32);
+  --light-glass-hover-shine-4: rgba(255, 200, 230, 0.22);
+}
+
+/* Dark Mode Colors */
+html.dark {
+  /* Background gradients */
+  --dark-bg-from: #0a0a23;
+  --dark-bg-to: #23234a;
+  
+  /* Cloud colors */
+  --dark-cloud-main: #2a2a4a;
+  --dark-cloud-stroke: #2a2a4a;
+  --dark-cloud-shadow: rgba(0, 0, 0, 0.4);
+  
+  /* Cloud inner gradient */
+  --dark-cloud-inner-1: #4a4a6a;
+  --dark-cloud-inner-2: #3a3a5a;
+  --dark-cloud-inner-3: #2a2a4a;
+  --dark-cloud-inner-4: #1a1a3a;
+  
+  /* Glass card colors */
+  --dark-glass-bg: rgba(40, 50, 90, 0.32);
+  --dark-glass-border: rgba(200, 180, 255, 0.32);
+  --dark-glass-outline: rgba(255, 255, 255, 0.12);
+  --dark-glass-shadow-1: rgba(31, 38, 135, 0.38);
+  --dark-glass-shadow-2: rgba(255, 255, 255, 0.18);
+  --dark-glass-shadow-3: rgba(200, 180, 255, 0.14);
+  --dark-glass-shadow-4: rgba(120, 80, 255, 0.12);
+  
+  /* Glass hover colors */
+  --dark-glass-hover-bg: rgba(60, 70, 120, 0.44);
+  --dark-glass-hover-shadow-1: rgba(31, 38, 135, 0.32);
+  --dark-glass-hover-shadow-2: rgba(255, 255, 255, 0.22);
+  --dark-glass-hover-shadow-3: rgba(120, 80, 255, 0.18);
+  
+  /* Glass shine effect */
+  --dark-glass-shine-1: rgba(0, 255, 255, 0.18);
+  --dark-glass-shine-2: rgba(120, 220, 255, 0.18);
+  --dark-glass-shine-3: rgba(255, 120, 220, 0.12);
+  --dark-glass-shine-4: rgba(255, 0, 128, 0.10);
+  
+  /* Glass hover shine */
+  --dark-glass-hover-shine-1: rgba(0, 255, 255, 0.38);
+  --dark-glass-hover-shine-2: rgba(120, 220, 255, 0.38);
+  --dark-glass-hover-shine-3: rgba(255, 120, 220, 0.32);
+  --dark-glass-hover-shine-4: rgba(255, 0, 128, 0.22);
+} 

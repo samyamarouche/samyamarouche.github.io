@@ -4,133 +4,8 @@ import { AcademicCapIcon, BriefcaseIcon, ArrowDownIcon } from "@heroicons/react/
 import Link from "next/link";
 import { useTheme } from "../components/ThemeProvider";
 import { useEffect, useRef } from "react";
-
-const parcours = [
-  { titre: "DUT (IUT Orsay - Paris Sacly)", dates: "2020 à 2022" },
-  { titre: "Ecole d'ingé (Polytech Paris Sacly)", dates: "2022 à 2023" },
-  { titre: "BUT (IUT Orsay - Paris Saclay)", dates: "2023 à 2024" },
-  { titre: "Master 1 (URCA - Reims)", dates: "2024 à 2025" },
-];
-const experiences = [
-  { titre: "Python Emulation de logiciel de vol (CNRS/LMD/Polytechnique)", dates: "2022 | 9 semaines" },
-  { titre: "Outils de prediction de trajectoire de ballon meteo (CNRS/LMD/Polytechnique)", dates: "2023 | 9 semaines" },
-  { titre: "Développement de module odoo (Primti)", dates: "2024 | 11 semaines" },
-  { titre: "Outils de prediction de trajectoire de ballon meteo (suite)", dates: "2024 | 9 semaines" },
-  { titre: "Outils de prediction de trajectoire de ballon meteo (suite)", dates: "2025 | 12 semaines" },
-];
-
-// CloudWaveSVG: a keynote-style cloud wave
-function CloudWaveSVG({ style, className }: { style?: React.CSSProperties; className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 3200 1000"
-      width="3200"
-      height="1000"
-      style={style}
-      className={className}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id="cloudInnerPink" x1="0" y1="200" x2="0" y2="1000" gradientUnits="userSpaceOnUse">
-          <stop offset="-10%" stopColor="#ff7fcf" stopOpacity="0.05" />
-          <stop offset="0%" stopColor="#ff7fcf" stopOpacity="0.05" />
-          <stop offset="30%" stopColor="#ffb3de" stopOpacity="0.08" />
-          <stop offset="60%" stopColor="#fff" stopOpacity="0.10" />
-          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {/* Main white cloud */}
-      <path
-        d="M0,200
-          C400,400 400,0 800,200
-          S1200,400 1600,200
-          S2000,0 2400,200
-          S2800,400 3200,200
-          V1000 H0 Z"
-        fill="#fff"
-        stroke="#fff"
-        strokeWidth="12"
-        opacity="0.98"
-        style={{ filter: 'drop-shadow(0 -24px 64px #e0eafc88)' }}
-      />
-      {/* More visible pink highlight inside the cloud */}
-      <path
-        d="M0,200
-          C400,400 400,0 800,200
-          S1200,400 1600,200
-          S2000,0 2400,200
-          S2800,400 3200,200
-          V1000 H0 Z"
-        fill="url(#cloudInnerPink)"
-        opacity="0.85"
-      />
-    </svg>
-  );
-}
-
-function Clouds() {
-  // Only render in light mode
-  return (
-    <CloudWaveSVG className="cloud-wave-svg animate-cloud-wave" style={{ position: 'fixed', bottom: '0', left: '-400px', width: '3200px', height: '1000px', zIndex: 0, opacity: 0.98, pointerEvents: 'none' }} />
-  );
-}
-
-function DarkCloudWaveSVG({ style, className }: { style?: React.CSSProperties; className?: string }) {
-  return (
-    <svg
-      viewBox="0 0 3200 1000"
-      width="3200"
-      height="1000"
-      style={style}
-      className={className}
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <defs>
-        <linearGradient id="cloudInnerDark" x1="0" y1="200" x2="0" y2="1000" gradientUnits="userSpaceOnUse">
-          <stop offset="-10%" stopColor="#4a4a6a" stopOpacity="0.15" />
-          <stop offset="0%" stopColor="#4a4a6a" stopOpacity="0.15" />
-          <stop offset="30%" stopColor="#3a3a5a" stopOpacity="0.20" />
-          <stop offset="60%" stopColor="#2a2a4a" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#1a1a3a" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-      {/* Main dark cloud */}
-      <path
-        d="M0,200
-          C400,400 400,0 800,200
-          S1200,400 1600,200
-          S2000,0 2400,200
-          S2800,400 3200,200
-          V1000 H0 Z"
-        fill="#2a2a4a"
-        stroke="#2a2a4a"
-        strokeWidth="12"
-        opacity="0.85"
-        style={{ filter: 'drop-shadow(0 -24px 64px rgba(0,0,0,0.4))' }}
-      />
-      {/* Dark highlight inside the cloud */}
-      <path
-        d="M0,200
-          C400,400 400,0 800,200
-          S1200,400 1600,200
-          S2000,0 2400,200
-          S2800,400 3200,200
-          V1000 H0 Z"
-        fill="url(#cloudInnerDark)"
-        opacity="0.90"
-      />
-    </svg>
-  );
-}
-
-function DarkClouds() {
-  // Dark mode clouds using the same wave structure as light mode
-  return (
-    <DarkCloudWaveSVG className="dark-cloud-wave-svg animate-cloud-wave" style={{ position: 'fixed', bottom: '0', left: '-400px', width: '3200px', height: '1000px', zIndex: 0, opacity: 0.75, pointerEvents: 'none' }} />
-  );
-}
+import { Clouds, DarkClouds } from "../components/CloudComponents";
+import { parcours, experiences, personalInfo } from "../components/Data";
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -163,12 +38,12 @@ export default function Home() {
       <section id="hero" className="w-full flex flex-col items-center justify-center pt-32 pb-16 z-10">
         <div className="relative flex flex-col items-center gap-6 fade-in">
           <div className="rounded-full border-4 border-white/40 shadow-xl overflow-hidden w-40 h-40 bg-white/10 backdrop-blur-md">
-            <Image src="/avatar.png" alt="Samy Amarouche" width={160} height={160} className="object-cover w-full h-full" />
+            <Image src={personalInfo.avatar} alt={personalInfo.name} width={160} height={160} className="object-cover w-full h-full" />
           </div>
-          <h1 className={`text-5xl sm:text-6xl font-extrabold drop-shadow-lg text-center ${mainText}`}>Samy Amarouche</h1>
-          <h2 className={`text-2xl sm:text-3xl font-medium text-center ${mainText} opacity-80`}>Développeur IA & passionné de météo</h2>
+          <h1 className={`text-5xl sm:text-6xl font-extrabold drop-shadow-lg text-center ${mainText}`}>{personalInfo.name}</h1>
+          <h2 className={`text-2xl sm:text-3xl font-medium text-center ${mainText} opacity-80`}>{personalInfo.title}</h2>
           <p className={`text-center max-w-2xl mt-2 text-lg ${subText}`}>
-            Master 1 (IA) en cours, passionné par la météorologie et la simulation de vie artificielle. Futur doctorant.
+            {personalInfo.description}
           </p>
           <a href="#parcours" className={`mt-4 px-6 py-3 rounded-full bg-white/30 backdrop-blur-md font-semibold shadow-lg border border-white/30 hover:bg-white/50 transition text-lg flex items-center gap-2 ${mainText}`}>
             Découvrir mon parcours <ArrowDownIcon className="w-6 h-6" />
@@ -214,7 +89,7 @@ export default function Home() {
         </div>
       </section>
       <footer className="w-full text-center text-black/60 dark:text-white/60 py-8 z-10">
-        © {new Date().getFullYear()} Samy Amarouche
+        © {new Date().getFullYear()} {personalInfo.name}
       </footer>
     </div>
   );

@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./colors.css";
 
 :root {
   --background: #ffffff;
@@ -25,25 +26,29 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-/* Effet glassmorphism amélioré avec reflet rose/violet animé */
+/* ===== GLASSMORPHISM EFFECTS ===== */
 .glass {
   position: relative;
-  background: rgba(255,255,255,0.18);
+  background: var(--light-glass-bg);
   border-radius: 2.5rem;
-  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18), 0 1.5px 8px 0 rgba(255,255,255,0.25) inset, 0 4px 32px 0 rgba(120,80,255,0.10);
+  box-shadow: 
+    0 8px 32px 0 var(--light-glass-shadow-1), 
+    0 1.5px 8px 0 var(--light-glass-shadow-2) inset, 
+    0 4px 32px 0 var(--light-glass-shadow-3);
   backdrop-filter: blur(32px) saturate(200%);
   border: 2px solid transparent;
   transition: box-shadow 0.3s, background 0.3s, transform 0.25s cubic-bezier(0.4,0,0.2,1);
   overflow: hidden;
   z-index: 1;
 }
+
 .glass::after {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   padding: 2px;
-  background: linear-gradient(120deg, #ffb3de, #b3c6ff);
+  background: linear-gradient(120deg, var(--light-glass-gradient-1), var(--light-glass-gradient-2));
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box, 
     linear-gradient(#fff 0 0);
@@ -52,6 +57,7 @@ body {
   pointer-events: none;
   z-index: 2;
 }
+
 .glass::before {
   content: "";
   position: absolute;
@@ -59,7 +65,11 @@ body {
   left: -40%;
   width: 180%;
   height: 180%;
-  background: linear-gradient(120deg, rgba(255,180,255,0.10) 0%, rgba(255,120,220,0.18) 30%, rgba(255,255,255,0.12) 60%, rgba(255,200,230,0.10) 100%);
+  background: linear-gradient(120deg, 
+    var(--light-glass-shine-1) 0%, 
+    var(--light-glass-shine-2) 30%, 
+    var(--light-glass-shine-3) 60%, 
+    var(--light-glass-shine-4) 100%);
   filter: blur(32px);
   opacity: 0;
   pointer-events: none;
@@ -67,41 +77,94 @@ body {
   transition: opacity 0.3s;
   animation: none;
 }
+
 .glass:hover::before {
   opacity: 1;
-  background: linear-gradient(120deg, rgba(255,180,255,0.32) 0%, rgba(255,120,220,0.38) 30%, rgba(255,255,255,0.32) 60%, rgba(255,200,230,0.22) 100%);
+  background: linear-gradient(120deg, 
+    var(--light-glass-hover-shine-1) 0%, 
+    var(--light-glass-hover-shine-2) 30%, 
+    var(--light-glass-hover-shine-3) 60%, 
+    var(--light-glass-hover-shine-4) 100%);
   filter: blur(18px) saturate(180%);
   animation: glassShine 4s linear infinite;
 }
+
 @keyframes glassShine {
   0% { transform: translateX(-20%) translateY(-10%) rotate(0deg); }
   100% { transform: translateX(20%) translateY(10%) rotate(2deg); }
 }
+
+/* Dark mode glass effects */
 html.dark .glass {
-  background: rgba(40, 50, 90, 0.32);
-  border: 1.5px solid rgba(200,180,255,0.32);
-  outline: 2px solid rgba(255,255,255,0.12);
-  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.38), 0 1.5px 8px 0 rgba(255,255,255,0.18) inset, 0 0 32px 6px rgba(200,180,255,0.14) inset, 0 4px 32px 0 rgba(120,80,255,0.12);
+  background: var(--dark-glass-bg);
+  border: 2px solid transparent;
+  box-shadow: 
+    0 8px 32px 0 var(--dark-glass-shadow-1), 
+    0 1.5px 8px 0 var(--dark-glass-shadow-2) inset, 
+    0 0 32px 6px var(--dark-glass-shadow-3) inset, 
+    0 4px 32px 0 var(--dark-glass-shadow-4);
   backdrop-filter: blur(36px) saturate(220%);
 }
+
 .glass:hover {
-  box-shadow: 0 16px 48px 0 rgba(31,38,135,0.25), 0 2px 12px 0 rgba(255,255,255,0.35) inset, 0 8px 32px 0 rgba(120,80,255,0.18);
-  background: rgba(255,255,255,0.55);
+  box-shadow: 
+    0 16px 48px 0 var(--light-glass-hover-shadow-1), 
+    0 2px 12px 0 var(--light-glass-hover-shadow-2) inset, 
+    0 8px 32px 0 var(--light-glass-hover-shadow-3);
+  background: var(--light-glass-hover-bg);
   transform: scale(1.025);
 }
+
 html.dark .glass:hover {
-  background: rgba(60,70,120,0.44);
+  background: var(--dark-glass-hover-bg);
   transform: scale(1.025);
-  box-shadow: 0 16px 56px 0 rgba(31,38,135,0.32), 0 2px 12px 0 rgba(255,255,255,0.22) inset, 0 8px 32px 0 rgba(120,80,255,0.18);
+  box-shadow: 
+    0 16px 56px 0 var(--dark-glass-hover-shadow-1), 
+    0 2px 12px 0 var(--dark-glass-hover-shadow-2) inset, 
+    0 8px 32px 0 var(--dark-glass-hover-shadow-3);
 }
+
 .glass > * {
   position: relative;
   z-index: 2;
 }
 
-/* Fond étoilé pour le mode sombre, étoiles bien visibles */
+/* Dark mode glass shine effects */
+html.dark .glass::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+  background: linear-gradient(120deg, 
+    var(--dark-glass-shine-1) 0%, 
+    var(--dark-glass-shine-2) 30%, 
+    var(--dark-glass-shine-3) 70%, 
+    var(--dark-glass-shine-4) 100%);
+  filter: blur(32px);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.3s;
+  animation: none;
+}
+
+html.dark .glass:hover::before {
+  opacity: 1;
+  background: linear-gradient(120deg, 
+    var(--dark-glass-hover-shine-1) 0%, 
+    var(--dark-glass-hover-shine-2) 30%, 
+    var(--dark-glass-hover-shine-3) 70%, 
+    var(--dark-glass-hover-shine-4) 100%);
+  filter: blur(18px) saturate(200%);
+  animation: glassShine 4s linear infinite;
+}
+
+/* ===== BACKGROUND EFFECTS ===== */
+/* Fond étoilé pour le mode sombre */
 html.dark #background-effect {
-  background: #0a0a23;
+  background: var(--dark-bg-from);
   background-image:
     radial-gradient(white 1.5px, transparent 1.5px),
     radial-gradient(white 1.5px, transparent 1.5px);
@@ -111,29 +174,23 @@ html.dark #background-effect {
   z-index: 0;
   animation: starTwinkle 6s infinite linear alternate;
 }
+
 @keyframes starTwinkle {
   0% { opacity: 0.45; }
   50% { opacity: 0.65; }
   100% { opacity: 0.45; }
 }
 
-/* Fond nuageux sunrise keynote Apple pour le mode clair */
+/* Fond nuageux pour le mode clair */
 html.light #background-effect {
-  background: linear-gradient(180deg, #aeefff 0%, #e0f7ff 60%, #e0eafc 100%);
+  background: linear-gradient(180deg, 
+    var(--light-bg-from) 0%, 
+    var(--light-bg-via) 60%, 
+    var(--light-bg-to) 100%);
   overflow: hidden;
 }
-.cloud {
-  position: absolute;
-  background: linear-gradient(120deg, rgba(255,255,255,0.85) 60%, rgba(255,200,230,0.25) 100%);
-  border-radius: 50%;
-  filter: blur(18px);
-  opacity: 0.7;
-  animation: cloudMove 120s linear infinite;
-}
-.cloud1 { width: 320px; height: 120px; top: 10%; left: 10%; animation-delay: 0s; }
-.cloud2 { width: 200px; height: 80px; top: 30%; left: 60%; animation-delay: 10s; }
-.cloud3 { width: 260px; height: 100px; top: 60%; left: 30%; animation-delay: 20s; }
-.cloud4 { width: 180px; height: 70px; top: 80%; left: 70%; animation-delay: 30s; }
+
+/* ===== CLOUD ANIMATIONS ===== */
 @keyframes cloudMove {
   0% { transform: translateX(0); }
   100% { transform: translateX(100vw); }
@@ -144,124 +201,31 @@ html.light #background-effect {
   100% { transform: translateX(100vw); }
 }
 
-/* Animations d'apparition */
+/* ===== FADE IN ANIMATIONS ===== */
 .fade-in {
   animation: fadeIn 1.2s cubic-bezier(0.4,0,0.2,1) both;
 }
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: none; }
 }
 
-html.dark .glass::before {
-  content: "";
-  position: absolute;
-  top: -40%;
-  left: -40%;
-  width: 180%;
-  height: 180%;
-  background: linear-gradient(120deg, rgba(0,255,255,0.18) 0%, rgba(120,220,255,0.18) 30%, rgba(255,120,220,0.12) 70%, rgba(255,0,128,0.10) 100%);
-  filter: blur(32px);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 1;
-  transition: opacity 0.3s;
-  animation: none;
-}
-html.dark .glass:hover::before {
-  opacity: 1;
-  background: linear-gradient(120deg, rgba(0,255,255,0.38) 0%, rgba(120,220,255,0.38) 30%, rgba(255,120,220,0.32) 70%, rgba(255,0,128,0.22) 100%);
-  filter: blur(18px) saturate(200%);
-  animation: glassShine 4s linear infinite;
-}
-
-.cloud-bubble {
-  position: absolute;
-  background: radial-gradient(circle at 60% 40%, rgba(255,255,255,0.95) 70%, rgba(255,200,230,0.25) 100%);
-  border-radius: 50%;
-  filter: blur(2px);
-  opacity: 0.85;
-  pointer-events: none;
-}
-
-.animate-cloud-left {
-  animation: cloudDriftLeft 60s linear infinite alternate;
-}
-@keyframes cloudDriftLeft {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(40px); }
-}
-
-.animate-cloud-right {
-  animation: cloudDriftRight 70s linear infinite alternate;
-}
-@keyframes cloudDriftRight {
-  0% { transform: scaleX(-1) translateX(0); }
-  100% { transform: scaleX(-1) translateX(-40px); }
-}
-
-.animate-cloud-center {
-  animation: cloudDriftCenter 90s linear infinite alternate;
-}
-@keyframes cloudDriftCenter {
-  0% { transform: translateX(-50%) scale(0.8); }
-  100% { transform: translateX(-40%) scale(0.8); }
-}
-
-.animate-cloud-topleft {
-  animation: cloudDriftTopLeft 80s linear infinite alternate;
-}
-@keyframes cloudDriftTopLeft {
-  0% { transform: scale(0.7) translateX(0); }
-  100% { transform: scale(0.7) translateX(30px); }
-}
-
-.animate-cloud-topright {
-  animation: cloudDriftTopRight 85s linear infinite alternate;
-}
-@keyframes cloudDriftTopRight {
-  0% { transform: scaleX(-1) scale(0.7) translateX(0); }
-  100% { transform: scaleX(-1) scale(0.7) translateX(-30px); }
-}
-
-.animate-cloud-midleft {
-  animation: cloudDriftMidLeft 100s linear infinite alternate;
-}
-@keyframes cloudDriftMidLeft {
-  0% { transform: scale(0.5) translateX(0); }
-  100% { transform: scale(0.5) translateX(20px); }
-}
-
-.animate-cloud-midright {
-  animation: cloudDriftMidRight 110s linear infinite alternate;
-}
-@keyframes cloudDriftMidRight {
-  0% { transform: scaleX(-1) scale(0.5) translateX(0); }
-  100% { transform: scaleX(-1) scale(0.5) translateX(-20px); }
-}
-
-.animate-cloud-wave {
-  animation: cloudWaveDrift 20s linear infinite alternate;
-}
-@keyframes cloudWaveDrift {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-120px); }
-}
-
+/* ===== THEME BACKGROUNDS ===== */
 html.light body, html.light .min-h-screen {
-  background: linear-gradient(180deg, #aeefff 0%, #e0f7ff 60%, #e0eafc 100%) !important;
+  background: linear-gradient(180deg, var(--light-bg-from) 0%, var(--light-bg-via) 60%, var(--light-bg-to) 100%);
 }
 
 html.dark body, html.dark .min-h-screen {
-  background: #0a0a23 !important;
+  background: linear-gradient(180deg, var(--dark-bg-from) 0%, var(--dark-bg-to) 100%);
 }
 
 #background-effect {
-  position: fixed !important;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  z-index: 0;
   pointer-events: none;
+  z-index: 0;
 }
