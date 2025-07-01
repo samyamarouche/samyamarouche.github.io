@@ -76,136 +76,60 @@ function Clouds() {
   );
 }
 
-function ShootingStars() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    let running = true;
-    function spawnStar() {
-      if (!ref.current) return;
-      // Définir la trajectoire
-      const fromTop = Math.random() < 0.5;
-      let startX: number, startY: number, endX: number, endY: number;
-      if (fromTop) {
-        startX = Math.random() * window.innerWidth * 0.8;
-        startY = 0;
-        endX = startX + 300 + Math.random() * 200;
-        endY = window.innerHeight * 0.7 + Math.random() * 100;
-      } else {
-        startX = 0;
-        startY = Math.random() * window.innerHeight * 0.5;
-        endX = window.innerWidth * 0.7 + Math.random() * 200;
-        endY = startY + 300 + Math.random() * 100;
-      }
-      const duration = 1200;
-      const steps = 40;
-      let frame = 0;
-      // Créer la tête de l'étoile
-      const star = document.createElement("div");
-      star.style.position = "absolute";
-      star.style.width = "32px";
-      star.style.height = "32px";
-      star.style.left = `${startX - 16}px`;
-      star.style.top = `${startY - 16}px`;
-      star.style.background = "radial-gradient(circle, #fff 0%, #fff8 60%, #fff2 100%)";
-      star.style.borderRadius = "50%";
-      star.style.boxShadow = "0 0 32px 8px #fff8, 0 0 64px 16px #fff4";
-      star.style.opacity = "1";
-      star.style.pointerEvents = "none";
-      star.style.zIndex = "3";
-      if (ref.current) {
-        ref.current.appendChild(star);
-      }
-      // Créer le halo blanc autour de l'étoile
-      const halo = document.createElement("div");
-      halo.style.position = "absolute";
-      halo.style.width = "180px";
-      halo.style.height = "180px";
-      halo.style.left = `${startX - 90}px`;
-      halo.style.top = `${startY - 90}px`;
-      halo.style.pointerEvents = "none";
-      halo.style.borderRadius = "50%";
-      halo.style.zIndex = "2";
-      halo.style.background = "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0.15) 60%, transparent 100%)";
-      halo.style.opacity = "1";
-      if (ref.current) {
-        ref.current.appendChild(halo);
-      }
-      // Fonction pour mettre à jour le mask
-      function updateMask(x: number, y: number) {
-        halo.style.background =
-          `radial-gradient(circle 200px at ${x}px ${y}px, rgba(255,255,255,1) 0%, rgba(0,255,255,0.35) 25%, rgba(0,180,255,0.10) 45%, transparent 70%)`;
-      }
-      updateMask(startX, startY);
-      (halo as any).updateMask = updateMask;
-      // Animation frame par frame
-      function animate() {
-        if (!running) return;
-        const t = frame / steps;
-        const x = startX + (endX - startX) * t;
-        const y = startY + (endY - startY) * t;
-        star.style.left = `${x - 16}px`;
-        star.style.top = `${y - 16}px`;
-        halo.style.left = `${x - 90}px`;
-        halo.style.top = `${y - 90}px`;
-        if ((halo as any).updateMask) {
-          (halo as any).updateMask(x, y);
-        }
-        // Créer un segment de traînée
-        const trail = document.createElement("div");
-        trail.style.position = "absolute";
-        trail.style.left = `${x - 8}px`;
-        trail.style.top = `${y - 8}px`;
-        trail.style.width = "16px";
-        trail.style.height = "16px";
-        trail.style.background = "radial-gradient(circle, #fff 0%, #fff8 60%, #fff2 100%)";
-        trail.style.borderRadius = "50%";
-        trail.style.opacity = "0.7";
-        trail.style.pointerEvents = "none";
-        trail.style.zIndex = "1";
-        if (ref.current) {
-          ref.current.appendChild(trail);
-        }
-        // Fade out du segment
-        trail.animate([
-          { opacity: 0.7 },
-          { opacity: 0 }
-        ], {
-          duration: 900,
-          easing: "ease-out",
-          fill: "forwards"
-        });
-        setTimeout(() => trail.remove(), 900);
-        frame++;
-        if (frame <= steps) {
-          requestAnimationFrame(animate);
-        } else {
-          // Fade out de la tête et du halo
-          star.animate([
-            { opacity: 1 },
-            { opacity: 0 }
-          ], {
-            duration: 300,
-            fill: "forwards"
-          });
-          halo.animate([
-            { opacity: 1 },
-            { opacity: 0 }
-          ], {
-            duration: 700,
-            fill: "forwards"
-          });
-          setTimeout(() => star.remove(), 300);
-          setTimeout(() => halo.remove(), 700);
-        }
-      }
-      animate();
-      timeout = setTimeout(spawnStar, 2000 + Math.random() * 3000);
-    }
-    spawnStar();
-    return () => { running = false; clearTimeout(timeout); };
-  }, []);
-  return <div ref={ref} style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 2 }} />;
+function DarkCloudWaveSVG({ style, className }: { style?: React.CSSProperties; className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 3200 1000"
+      width="3200"
+      height="1000"
+      style={style}
+      className={className}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="cloudInnerDark" x1="0" y1="200" x2="0" y2="1000" gradientUnits="userSpaceOnUse">
+          <stop offset="-10%" stopColor="#4a4a6a" stopOpacity="0.15" />
+          <stop offset="0%" stopColor="#4a4a6a" stopOpacity="0.15" />
+          <stop offset="30%" stopColor="#3a3a5a" stopOpacity="0.20" />
+          <stop offset="60%" stopColor="#2a2a4a" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#1a1a3a" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {/* Main dark cloud */}
+      <path
+        d="M0,200
+          C400,400 400,0 800,200
+          S1200,400 1600,200
+          S2000,0 2400,200
+          S2800,400 3200,200
+          V1000 H0 Z"
+        fill="#2a2a4a"
+        stroke="#2a2a4a"
+        strokeWidth="12"
+        opacity="0.85"
+        style={{ filter: 'drop-shadow(0 -24px 64px rgba(0,0,0,0.4))' }}
+      />
+      {/* Dark highlight inside the cloud */}
+      <path
+        d="M0,200
+          C400,400 400,0 800,200
+          S1200,400 1600,200
+          S2000,0 2400,200
+          S2800,400 3200,200
+          V1000 H0 Z"
+        fill="url(#cloudInnerDark)"
+        opacity="0.90"
+      />
+    </svg>
+  );
+}
+
+function DarkClouds() {
+  // Dark mode clouds using the same wave structure as light mode
+  return (
+    <DarkCloudWaveSVG className="dark-cloud-wave-svg animate-cloud-wave" style={{ position: 'fixed', bottom: '0', left: '-400px', width: '3200px', height: '1000px', zIndex: 0, opacity: 0.75, pointerEvents: 'none' }} />
+  );
 }
 
 export default function Home() {
@@ -220,7 +144,7 @@ export default function Home() {
       {/* Effet étoilé/nuageux à ajouter ici */}
       <div className="absolute inset-0 z-0 pointer-events-none" id="background-effect">
         {theme === "light" && <Clouds />}
-        {theme === "dark" && <ShootingStars />}
+        {theme === "dark" && <DarkClouds />}
       </div>
       {/* Navigation sticky */}
       <nav className="fixed top-0 left-0 w-full z-20 bg-white/30 dark:bg-black/30 backdrop-blur-md shadow-md flex justify-center py-2 gap-8">

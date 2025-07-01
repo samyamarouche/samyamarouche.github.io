@@ -117,40 +117,6 @@ html.dark #background-effect {
   100% { opacity: 0.45; }
 }
 
-/* Etoiles filantes diagonales (axe transversal) */
-.shooting-star {
-  position: absolute;
-  width: 4px;
-  height: 120px;
-  background: linear-gradient(300deg, transparent 40%, #fff 90%, #fff 100%);
-  opacity: 1;
-  border-radius: 4px;
-  pointer-events: none;
-  z-index: 1;
-  animation: shootingStar 1.2s linear forwards;
-  box-shadow: 0 0 16px 4px #fff8, 0 0 32px 8px #fff4;
-}
-.shooting-star::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  width: 32px;
-  height: 32px;
-  background: radial-gradient(circle, #fff 0%, #fff8 60%, #fff2 100%);
-  border-radius: 50%;
-  opacity: 1;
-  filter: blur(2.5px);
-  pointer-events: none;
-  box-shadow: 0 0 32px 8px #fff8, 0 0 64px 16px #fff4;
-}
-@keyframes shootingStar {
-  0% { opacity: 0; transform: translate(0,0) scaleX(0.5) rotate(-30deg); }
-  10% { opacity: 1; }
-  100% { opacity: 0; transform: translate(300px,600px) scaleX(1.2) rotate(-30deg); }
-}
-
 /* Fond nuageux sunrise keynote Apple pour le mode clair */
 html.light #background-effect {
   background: linear-gradient(180deg, #aeefff 0%, #e0f7ff 60%, #e0eafc 100%);
@@ -173,6 +139,11 @@ html.light #background-effect {
   100% { transform: translateX(100vw); }
 }
 
+@keyframes darkCloudMove {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100vw); }
+}
+
 /* Animations d'apparition */
 .fade-in {
   animation: fadeIn 1.2s cubic-bezier(0.4,0,0.2,1) both;
@@ -180,17 +151,6 @@ html.light #background-effect {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(40px); }
   to { opacity: 1; transform: none; }
-}
-
-.shooting-star-trail {
-  position: absolute;
-  height: 8px;
-  background: linear-gradient(90deg, #fff 0%, #fff8 40%, transparent 100%);
-  border-radius: 8px;
-  opacity: 1;
-  pointer-events: none;
-  z-index: 1;
-  box-shadow: 0 0 24px 8px #fff8, 0 0 48px 16px #fff4;
 }
 
 html.dark .glass::before {
