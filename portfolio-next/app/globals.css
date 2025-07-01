@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Effet glassmorphism amélioré avec reflet rose/violet animé */
+.glass {
+  position: relative;
+  background: rgba(255,255,255,0.38);
+  border-radius: 2rem;
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18), 0 1.5px 8px 0 rgba(255,255,255,0.25) inset;
+  backdrop-filter: blur(16px) saturate(180%);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  transition: box-shadow 0.3s, background 0.3s;
+  overflow: hidden;
+}
+.glass::before {
+  content: "";
+  position: absolute;
+  top: -40%;
+  left: -40%;
+  width: 180%;
+  height: 180%;
+  background: linear-gradient(120deg, rgba(255,180,255,0.18) 0%, rgba(200,150,255,0.12) 40%, rgba(255,200,230,0.10) 100%);
+  filter: blur(32px);
+  opacity: 0.8;
+  pointer-events: none;
+  z-index: 1;
+  animation: glassShine 6s linear infinite;
+}
+@keyframes glassShine {
+  0% { transform: translateX(-20%) translateY(-10%) rotate(0deg); }
+  100% { transform: translateX(20%) translateY(10%) rotate(2deg); }
+}
+html.dark .glass {
+  background: rgba(30,34,60,0.45);
+  border: 1.5px solid rgba(255,255,255,0.18);
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.28), 0 1.5px 8px 0 rgba(255,255,255,0.10) inset;
+}
+.glass:hover {
+  box-shadow: 0 12px 40px 0 rgba(31,38,135,0.25), 0 2px 12px 0 rgba(255,255,255,0.35) inset;
+  background: rgba(255,255,255,0.48);
+}
+html.dark .glass:hover {
+  background: rgba(60,70,120,0.55);
+}
+
+/* Fond étoilé pour le mode sombre, étoiles bien visibles */
+html.dark #background-effect {
+  background: #0a0a23;
+  background-image:
+    radial-gradient(white 1.5px, transparent 1.5px),
+    radial-gradient(white 1.5px, transparent 1.5px);
+  background-size: 100px 100px, 160px 160px;
+  background-position: 0 0, 50px 50px;
+  opacity: 0.45;
+  z-index: 0;
+  animation: starTwinkle 6s infinite linear alternate;
+}
+@keyframes starTwinkle {
+  0% { opacity: 0.45; }
+  50% { opacity: 0.65; }
+  100% { opacity: 0.45; }
+}
+
+/* Etoiles filantes diagonales (axe transversal) */
+.shooting-star {
+  position: absolute;
+  width: 2px;
+  height: 80px;
+  background: linear-gradient(120deg, white, transparent 80%);
+  opacity: 0.8;
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 1;
+  animation: shootingStar 1.2s linear forwards;
+}
+@keyframes shootingStar {
+  0% { opacity: 0; transform: translate(0,0) scaleX(0.5) rotate(-30deg); }
+  10% { opacity: 1; }
+  100% { opacity: 0; transform: translate(300px,600px) scaleX(1.2) rotate(-30deg); }
+}
+
+/* Fond nuageux sunrise keynote Apple pour le mode clair */
+html.light #background-effect {
+  background: linear-gradient(180deg, #fbefff 0%, #f7faff 60%, #e0eafc 100%);
+  overflow: hidden;
+}
+.cloud {
+  position: absolute;
+  background: linear-gradient(120deg, rgba(255,255,255,0.85) 60%, rgba(255,200,230,0.25) 100%);
+  border-radius: 50%;
+  filter: blur(18px);
+  opacity: 0.7;
+  animation: cloudMove 60s linear infinite;
+}
+.cloud1 { width: 320px; height: 120px; top: 10%; left: 10%; animation-delay: 0s; }
+.cloud2 { width: 200px; height: 80px; top: 30%; left: 60%; animation-delay: 10s; }
+.cloud3 { width: 260px; height: 100px; top: 60%; left: 30%; animation-delay: 20s; }
+.cloud4 { width: 180px; height: 70px; top: 80%; left: 70%; animation-delay: 30s; }
+@keyframes cloudMove {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(100vw); }
+}
+
+/* Animations d'apparition */
+.fade-in {
+  animation: fadeIn 1.2s cubic-bezier(0.4,0,0.2,1) both;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: none; }
+}
