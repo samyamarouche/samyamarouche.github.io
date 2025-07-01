@@ -85,7 +85,7 @@ function ShootingStars() {
       if (!ref.current) return;
       // Définir la trajectoire
       const fromTop = Math.random() < 0.5;
-      let startX, startY, endX, endY;
+      let startX: number, startY: number, endX: number, endY: number;
       if (fromTop) {
         startX = Math.random() * window.innerWidth * 0.8;
         startY = 0;
@@ -137,7 +137,7 @@ function ShootingStars() {
           `radial-gradient(circle 200px at ${x}px ${y}px, rgba(255,255,255,1) 0%, rgba(0,255,255,0.35) 25%, rgba(0,180,255,0.10) 45%, transparent 70%)`;
       }
       updateMask(startX, startY);
-      halo['updateMask'] = updateMask;
+      (halo as any).updateMask = updateMask;
       // Animation frame par frame
       function animate() {
         if (!running) return;
@@ -148,8 +148,8 @@ function ShootingStars() {
         star.style.top = `${y - 16}px`;
         halo.style.left = `${x - 90}px`;
         halo.style.top = `${y - 90}px`;
-        if (halo && halo['updateMask']) {
-          halo['updateMask'](x, y);
+        if ((halo as any).updateMask) {
+          (halo as any).updateMask(x, y);
         }
         // Créer un segment de traînée
         const trail = document.createElement("div");
