@@ -2,8 +2,8 @@
 @import "./colors.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a23;
+  --foreground: #ffffff;
 }
 
 @theme inline {
@@ -15,15 +15,64 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0a0a23;
+    --foreground: #ffffff;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Courier New', monospace;
+  overflow-x: hidden;
+}
+
+/* ===== 3D PERSPECTIVE STYLES ===== */
+.perspective-1000 {
+  perspective: 1000px;
+  perspective-origin: center center;
+}
+
+.galaxy-container {
+  transform-style: preserve-3d;
+  transition: transform 0.5s ease-out;
+}
+
+.galaxy-core {
+  transform-style: preserve-3d;
+  transition: all 0.3s ease-out;
+}
+
+/* ===== SPACE ANIMATIONS ===== */
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+@keyframes galaxyPulse {
+  0%, 100% { 
+    box-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
+    transform: scale(1);
+  }
+  50% { 
+    box-shadow: 0 0 50px currentColor, 0 0 100px currentColor;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes starSystemGlow {
+  0%, 100% { 
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+  }
+  50% { 
+    box-shadow: 0 0 20px currentColor, 0 0 40px currentColor;
+  }
+}
+
+@keyframes spaceDrift {
+  0% { transform: translateX(0px) translateY(0px); }
+  50% { transform: translateX(10px) translateY(-5px); }
+  100% { transform: translateX(0px) translateY(0px); }
 }
 
 /* ===== GLASSMORPHISM EFFECTS ===== */
@@ -161,6 +210,24 @@ html.dark .glass:hover::before {
   animation: glassShine 4s linear infinite;
 }
 
+/* ===== GALAXY SPECIFIC STYLES ===== */
+.galaxy-core {
+  animation: spaceDrift 8s ease-in-out infinite;
+}
+
+.galaxy-core:hover {
+  animation: galaxyPulse 2s ease-in-out infinite;
+}
+
+/* ===== STAR SYSTEM STYLES ===== */
+.star-system {
+  animation: starTwinkle 3s ease-in-out infinite;
+}
+
+.star-system:hover {
+  animation: starSystemGlow 1s ease-in-out infinite;
+}
+
 /* ===== BACKGROUND EFFECTS ===== */
 /* Fond étoilé pour le mode sombre */
 html.dark #background-effect {
@@ -203,17 +270,17 @@ html.light #background-effect {
 
 /* ===== FADE IN ANIMATIONS ===== */
 .fade-in {
-  animation: fadeIn 1.2s cubic-bezier(0.4,0,0.2,1) both;
+  animation: fadeIn 1s ease-out forwards;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: none; }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== THEME BACKGROUNDS ===== */
+/* ===== THEME TRANSITIONS ===== */
 html.light body, html.light .min-h-screen {
-  background: linear-gradient(180deg, var(--light-bg-from) 0%, var(--light-bg-via) 60%, var(--light-bg-to) 100%);
+  background: linear-gradient(180deg, var(--light-bg-from) 0%, var(--light-bg-to) 100%);
 }
 
 html.dark body, html.dark .min-h-screen {
@@ -221,11 +288,37 @@ html.dark body, html.dark .min-h-screen {
 }
 
 #background-effect {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
+  position: absolute;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
+}
+
+/* ===== RESPONSIVE ADJUSTMENTS ===== */
+@media (max-width: 768px) {
+  .galaxy-container {
+    transform: scale(0.8);
+  }
+  
+  .perspective-1000 {
+    perspective: 500px;
+  }
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(74, 144, 226, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(74, 144, 226, 0.7);
 }

@@ -1,95 +1,132 @@
-/* ===== COLOR CONFIGURATION ===== */
+/* ===== NO MAN'S SKY COLOR CONFIGURATION ===== */
 
 /* Light Mode Colors */
 :root {
-  /* Background gradients */
-  --light-bg-from: #aeefff;
-  --light-bg-via: #e0f7ff;
-  --light-bg-to: #e0eafc;
+  /* Background gradients - Space theme */
+  --light-bg-from: #0a0a23;
+  --light-bg-via: #1a1a4a;
+  --light-bg-to: #2a2a6a;
   
-  /* Cloud colors */
-  --light-cloud-main: #fff;
-  --light-cloud-stroke: #fff;
-  --light-cloud-shadow: #e0eafc88;
+  /* Cloud colors - Nebula theme */
+  --light-cloud-main: #4a90e2;
+  --light-cloud-stroke: #3a7bc8;
+  --light-cloud-shadow: #2a5aa8;
   
-  /* Cloud inner gradient */
-  --light-cloud-inner-1: #ff7fcf;
-  --light-cloud-inner-2: #ffb3de;
-  --light-cloud-inner-3: #fff;
-  --light-cloud-inner-4: #fff;
+  /* Cloud inner gradient - Space dust */
+  --light-cloud-inner-1: #6ba3e8;
+  --light-cloud-inner-2: #5a92d7;
+  --light-cloud-inner-3: #4a81c6;
+  --light-cloud-inner-4: #3a70b5;
   
-  /* Glass card colors */
-  --light-glass-bg: rgba(255, 255, 255, 0.18);
-  --light-glass-border: rgba(255, 255, 255, 0.35);
-  --light-glass-outline: rgba(200, 150, 255, 0.18);
-  --light-glass-shadow-1: rgba(31, 38, 135, 0.18);
-  --light-glass-shadow-2: rgba(255, 255, 255, 0.25);
-  --light-glass-shadow-3: rgba(120, 80, 255, 0.10);
+  /* Glass card colors - Space station theme */
+  --light-glass-bg: rgba(74, 144, 226, 0.15);
+  --light-glass-border: rgba(74, 144, 226, 0.25);
+  --light-glass-outline: rgba(74, 144, 226, 0.10);
+  --light-glass-shadow-1: rgba(10, 10, 35, 0.25);
+  --light-glass-shadow-2: rgba(74, 144, 226, 0.20);
+  --light-glass-shadow-3: rgba(74, 144, 226, 0.15);
   
   /* Glass hover colors */
-  --light-glass-hover-bg: rgba(255, 255, 255, 0.55);
-  --light-glass-hover-shadow-1: rgba(31, 38, 135, 0.25);
-  --light-glass-hover-shadow-2: rgba(255, 255, 255, 0.35);
-  --light-glass-hover-shadow-3: rgba(120, 80, 255, 0.18);
+  --light-glass-hover-bg: rgba(74, 144, 226, 0.25);
+  --light-glass-hover-shadow-1: rgba(10, 10, 35, 0.35);
+  --light-glass-hover-shadow-2: rgba(74, 144, 226, 0.30);
+  --light-glass-hover-shadow-3: rgba(74, 144, 226, 0.25);
   
-  /* Glass gradient border */
-  --light-glass-gradient-1: #ffb3de;
-  --light-glass-gradient-2: #b3c6ff;
+  /* Glass gradient border - Aurora effect */
+  --light-glass-gradient-1: #4a90e2;
+  --light-glass-gradient-2: #6ba3e8;
   
-  /* Glass shine effect */
-  --light-glass-shine-1: rgba(255, 180, 255, 0.10);
-  --light-glass-shine-2: rgba(255, 120, 220, 0.18);
-  --light-glass-shine-3: rgba(255, 255, 255, 0.12);
-  --light-glass-shine-4: rgba(255, 200, 230, 0.10);
+  /* Glass shine effect - Starlight */
+  --light-glass-shine-1: rgba(74, 144, 226, 0.15);
+  --light-glass-shine-2: rgba(107, 163, 232, 0.20);
+  --light-glass-shine-3: rgba(255, 255, 255, 0.10);
+  --light-glass-shine-4: rgba(74, 144, 226, 0.15);
   
   /* Glass hover shine */
-  --light-glass-hover-shine-1: rgba(255, 180, 255, 0.32);
-  --light-glass-hover-shine-2: rgba(255, 120, 220, 0.38);
-  --light-glass-hover-shine-3: rgba(255, 255, 255, 0.32);
-  --light-glass-hover-shine-4: rgba(255, 200, 230, 0.22);
+  --light-glass-hover-shine-1: rgba(74, 144, 226, 0.35);
+  --light-glass-hover-shine-2: rgba(107, 163, 232, 0.40);
+  --light-glass-hover-shine-3: rgba(255, 255, 255, 0.25);
+  --light-glass-hover-shine-4: rgba(74, 144, 226, 0.30);
 }
 
 /* Dark Mode Colors */
 html.dark {
-  /* Background gradients */
+  /* Background gradients - Deep space */
   --dark-bg-from: #0a0a23;
-  --dark-bg-to: #23234a;
+  --dark-bg-to: #1a1a4a;
   
-  /* Cloud colors */
-  --dark-cloud-main: #2a2a4a;
-  --dark-cloud-stroke: #2a2a4a;
-  --dark-cloud-shadow: rgba(0, 0, 0, 0.4);
+  /* Cloud colors - Dark nebula */
+  --dark-cloud-main: #2a2a6a;
+  --dark-cloud-stroke: #1a1a5a;
+  --dark-cloud-shadow: rgba(0, 0, 0, 0.6);
   
-  /* Cloud inner gradient */
-  --dark-cloud-inner-1: #4a4a6a;
-  --dark-cloud-inner-2: #3a3a5a;
-  --dark-cloud-inner-3: #2a2a4a;
-  --dark-cloud-inner-4: #1a1a3a;
+  /* Cloud inner gradient - Dark space dust */
+  --dark-cloud-inner-1: #3a3a7a;
+  --dark-cloud-inner-2: #2a2a6a;
+  --dark-cloud-inner-3: #1a1a5a;
+  --dark-cloud-inner-4: #0a0a4a;
   
-  /* Glass card colors */
-  --dark-glass-bg: rgba(40, 50, 90, 0.32);
-  --dark-glass-border: rgba(200, 180, 255, 0.32);
-  --dark-glass-outline: rgba(255, 255, 255, 0.12);
-  --dark-glass-shadow-1: rgba(31, 38, 135, 0.38);
-  --dark-glass-shadow-2: rgba(255, 255, 255, 0.18);
-  --dark-glass-shadow-3: rgba(200, 180, 255, 0.14);
-  --dark-glass-shadow-4: rgba(120, 80, 255, 0.12);
+  /* Glass card colors - Dark space station */
+  --dark-glass-bg: rgba(42, 42, 106, 0.25);
+  --dark-glass-border: rgba(74, 144, 226, 0.20);
+  --dark-glass-outline: rgba(255, 255, 255, 0.08);
+  --dark-glass-shadow-1: rgba(10, 10, 35, 0.40);
+  --dark-glass-shadow-2: rgba(74, 144, 226, 0.15);
+  --dark-glass-shadow-3: rgba(74, 144, 226, 0.12);
+  --dark-glass-shadow-4: rgba(74, 144, 226, 0.10);
   
   /* Glass hover colors */
-  --dark-glass-hover-bg: rgba(60, 70, 120, 0.44);
-  --dark-glass-hover-shadow-1: rgba(31, 38, 135, 0.32);
-  --dark-glass-hover-shadow-2: rgba(255, 255, 255, 0.22);
-  --dark-glass-hover-shadow-3: rgba(120, 80, 255, 0.18);
+  --dark-glass-hover-bg: rgba(52, 52, 126, 0.35);
+  --dark-glass-hover-shadow-1: rgba(10, 10, 35, 0.45);
+  --dark-glass-hover-shadow-2: rgba(74, 144, 226, 0.20);
+  --dark-glass-hover-shadow-3: rgba(74, 144, 226, 0.18);
   
-  /* Glass shine effect */
-  --dark-glass-shine-1: rgba(0, 255, 255, 0.18);
-  --dark-glass-shine-2: rgba(120, 220, 255, 0.18);
-  --dark-glass-shine-3: rgba(255, 120, 220, 0.12);
-  --dark-glass-shine-4: rgba(255, 0, 128, 0.10);
+  /* Glass shine effect - Dark starlight */
+  --dark-glass-shine-1: rgba(74, 144, 226, 0.20);
+  --dark-glass-shine-2: rgba(107, 163, 232, 0.20);
+  --dark-glass-shine-3: rgba(255, 120, 220, 0.15);
+  --dark-glass-shine-4: rgba(255, 0, 128, 0.12);
   
   /* Glass hover shine */
-  --dark-glass-hover-shine-1: rgba(0, 255, 255, 0.38);
-  --dark-glass-hover-shine-2: rgba(120, 220, 255, 0.38);
-  --dark-glass-hover-shine-3: rgba(255, 120, 220, 0.32);
-  --dark-glass-hover-shine-4: rgba(255, 0, 128, 0.22);
+  --dark-glass-hover-shine-1: rgba(74, 144, 226, 0.40);
+  --dark-glass-hover-shine-2: rgba(107, 163, 232, 0.40);
+  --dark-glass-hover-shine-3: rgba(255, 120, 220, 0.35);
+  --dark-glass-hover-shine-4: rgba(255, 0, 128, 0.25);
+}
+
+/* ===== GALAXY SPECIFIC COLORS ===== */
+:root {
+  /* Education Galaxy - Blue */
+  --education-galaxy-color: #4A90E2;
+  --education-galaxy-glow: #4A90E2;
+  
+  /* Internship Galaxy - Red/Orange */
+  --internship-galaxy-color: #FF6B6B;
+  --internship-galaxy-glow: #FF6B6B;
+  
+  /* Projects Galaxy - Green */
+  --projects-galaxy-color: #4CAF50;
+  --projects-galaxy-glow: #4CAF50;
+}
+
+/* ===== STAR SYSTEM COLORS ===== */
+:root {
+  /* Education Star Systems */
+  --dut-system-color: #64B5F6;
+  --engineering-system-color: #42A5F5;
+  --but-system-color: #2196F3;
+  --master-system-color: #1976D2;
+  
+  /* Internship Star Systems */
+  --cnrs-flight-color: #FF8A80;
+  --cnrs-prediction-color: #FF5252;
+  --primti-color: #D32F2F;
+  --cnrs-continuation-color: #B71C1C;
+  --cnrs-final-color: #8D1B1B;
+  
+  /* Project Star Systems */
+  --ai-research-color: #66BB6A;
+  --weather-simulation-color: #4CAF50;
+  --portfolio-color: #388E3C;
+  --future-research-color: #2E7D32;
 } 
