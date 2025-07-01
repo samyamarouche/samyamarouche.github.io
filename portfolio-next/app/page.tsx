@@ -19,14 +19,60 @@ const experiences = [
   { titre: "Outils de prediction de trajectoire de ballon meteo (suite)", dates: "2025 | 12 semaines" },
 ];
 
-function Clouds() {
+// CloudWaveSVG: a keynote-style cloud wave
+function CloudWaveSVG({ style, className }: { style?: React.CSSProperties; className?: string }) {
   return (
-    <>
-      <div className="cloud cloud1" />
-      <div className="cloud cloud2" />
-      <div className="cloud cloud3" />
-      <div className="cloud cloud4" />
-    </>
+    <svg
+      viewBox="0 0 3200 1000"
+      width="3200"
+      height="1000"
+      style={style}
+      className={className}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        <linearGradient id="cloudInnerPink" x1="0" y1="200" x2="0" y2="1000" gradientUnits="userSpaceOnUse">
+          <stop offset="-10%" stopColor="#ff7fcf" stopOpacity="0.05" />
+          <stop offset="0%" stopColor="#ff7fcf" stopOpacity="0.05" />
+          <stop offset="30%" stopColor="#ffb3de" stopOpacity="0.08" />
+          <stop offset="60%" stopColor="#fff" stopOpacity="0.10" />
+          <stop offset="100%" stopColor="#fff" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      {/* Main white cloud */}
+      <path
+        d="M0,200
+          C400,400 400,0 800,200
+          S1200,400 1600,200
+          S2000,0 2400,200
+          S2800,400 3200,200
+          V1000 H0 Z"
+        fill="#fff"
+        stroke="#fff"
+        strokeWidth="12"
+        opacity="0.98"
+        style={{ filter: 'drop-shadow(0 -24px 64px #e0eafc88)' }}
+      />
+      {/* More visible pink highlight inside the cloud */}
+      <path
+        d="M0,200
+          C400,400 400,0 800,200
+          S1200,400 1600,200
+          S2000,0 2400,200
+          S2800,400 3200,200
+          V1000 H0 Z"
+        fill="url(#cloudInnerPink)"
+        opacity="0.85"
+      />
+    </svg>
+  );
+}
+
+function Clouds() {
+  // Only render in light mode
+  return (
+    <CloudWaveSVG className="cloud-wave-svg animate-cloud-wave" style={{ position: 'fixed', bottom: '0', left: '-400px', width: '3200px', height: '1000px', zIndex: 0, opacity: 0.98, pointerEvents: 'none' }} />
   );
 }
 
@@ -34,10 +80,10 @@ function ShootingStars() {
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let timeout: NodeJS.Timeout;
+    let running = true;
     function spawnStar() {
       if (!ref.current) return;
-      const star = document.createElement("div");
-      star.className = "shooting-star";
+      // Définir la trajectoire
       const fromTop = Math.random() < 0.5;
       let startX, startY, endX, endY;
       if (fromTop) {
@@ -51,23 +97,113 @@ function ShootingStars() {
         endX = window.innerWidth * 0.7 + Math.random() * 200;
         endY = startY + 300 + Math.random() * 100;
       }
-      star.style.left = `${startX}px`;
-      star.style.top = `${startY}px`;
-      star.animate([
-        { opacity: 0, transform: `translate(0,0) scaleX(0.5) rotate(-30deg)` },
-        { opacity: 1, offset: 0.1 },
-        { opacity: 0, transform: `translate(${endX - startX}px,${endY - startY}px) scaleX(1.2) rotate(-30deg)`, offset: 1 }
-      ], {
-        duration: 1200,
-        easing: "linear",
-        fill: "forwards"
-      });
-      ref.current.appendChild(star);
-      setTimeout(() => star.remove(), 1200);
+      const duration = 1200;
+      const steps = 40;
+      let frame = 0;
+      // Créer la tête de l'étoile
+      const star = document.createElement("div");
+      star.style.position = "absolute";
+      star.style.width = "32px";
+      star.style.height = "32px";
+      star.style.left = `${startX - 16}px`;
+      star.style.top = `${startY - 16}px`;
+      star.style.background = "radial-gradient(circle, #fff 0%, #fff8 60%, #fff2 100%)";
+      star.style.borderRadius = "50%";
+      star.style.boxShadow = "0 0 32px 8px #fff8, 0 0 64px 16px #fff4";
+      star.style.opacity = "1";
+      star.style.pointerEvents = "none";
+      star.style.zIndex = "3";
+      if (ref.current) {
+        ref.current.appendChild(star);
+      }
+      // Créer le halo blanc autour de l'étoile
+      const halo = document.createElement("div");
+      halo.style.position = "absolute";
+      halo.style.width = "180px";
+      halo.style.height = "180px";
+      halo.style.left = `${startX - 90}px`;
+      halo.style.top = `${startY - 90}px`;
+      halo.style.pointerEvents = "none";
+      halo.style.borderRadius = "50%";
+      halo.style.zIndex = "2";
+      halo.style.background = "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 30%, rgba(255,255,255,0.15) 60%, transparent 100%)";
+      halo.style.opacity = "1";
+      if (ref.current) {
+        ref.current.appendChild(halo);
+      }
+      // Fonction pour mettre à jour le mask
+      function updateMask(x: number, y: number) {
+        halo.style.background =
+          `radial-gradient(circle 200px at ${x}px ${y}px, rgba(255,255,255,1) 0%, rgba(0,255,255,0.35) 25%, rgba(0,180,255,0.10) 45%, transparent 70%)`;
+      }
+      updateMask(startX, startY);
+      halo['updateMask'] = updateMask;
+      // Animation frame par frame
+      function animate() {
+        if (!running) return;
+        const t = frame / steps;
+        const x = startX + (endX - startX) * t;
+        const y = startY + (endY - startY) * t;
+        star.style.left = `${x - 16}px`;
+        star.style.top = `${y - 16}px`;
+        halo.style.left = `${x - 90}px`;
+        halo.style.top = `${y - 90}px`;
+        if (halo && halo['updateMask']) {
+          halo['updateMask'](x, y);
+        }
+        // Créer un segment de traînée
+        const trail = document.createElement("div");
+        trail.style.position = "absolute";
+        trail.style.left = `${x - 8}px`;
+        trail.style.top = `${y - 8}px`;
+        trail.style.width = "16px";
+        trail.style.height = "16px";
+        trail.style.background = "radial-gradient(circle, #fff 0%, #fff8 60%, #fff2 100%)";
+        trail.style.borderRadius = "50%";
+        trail.style.opacity = "0.7";
+        trail.style.pointerEvents = "none";
+        trail.style.zIndex = "1";
+        if (ref.current) {
+          ref.current.appendChild(trail);
+        }
+        // Fade out du segment
+        trail.animate([
+          { opacity: 0.7 },
+          { opacity: 0 }
+        ], {
+          duration: 900,
+          easing: "ease-out",
+          fill: "forwards"
+        });
+        setTimeout(() => trail.remove(), 900);
+        frame++;
+        if (frame <= steps) {
+          requestAnimationFrame(animate);
+        } else {
+          // Fade out de la tête et du halo
+          star.animate([
+            { opacity: 1 },
+            { opacity: 0 }
+          ], {
+            duration: 300,
+            fill: "forwards"
+          });
+          halo.animate([
+            { opacity: 1 },
+            { opacity: 0 }
+          ], {
+            duration: 700,
+            fill: "forwards"
+          });
+          setTimeout(() => star.remove(), 300);
+          setTimeout(() => halo.remove(), 700);
+        }
+      }
+      animate();
       timeout = setTimeout(spawnStar, 2000 + Math.random() * 3000);
     }
     spawnStar();
-    return () => clearTimeout(timeout);
+    return () => { running = false; clearTimeout(timeout); };
   }, []);
   return <div ref={ref} style={{ position: "absolute", inset: 0, pointerEvents: "none", zIndex: 2 }} />;
 }
