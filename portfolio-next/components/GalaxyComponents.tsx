@@ -7,6 +7,8 @@ interface GalaxyProps {
   onStarSystemClick: (starSystem: StarSystem) => void;
   isSelected: boolean;
   onSelect: () => void;
+  extraTransform?: string;
+  anotherGalaxySelected?: boolean;
 }
 
 interface StarSystemProps {
@@ -14,19 +16,25 @@ interface StarSystemProps {
   onClick: () => void;
   isSelected: boolean;
   galaxyColor: string;
+  index: number;
+  totalSystems: number;
+  verticalStacked: boolean;
 }
 
 export const GalaxyComponent: React.FC<GalaxyProps> = ({ 
   galaxy, 
   onStarSystemClick, 
   isSelected, 
-  onSelect 
+  onSelect, 
+  extraTransform, 
+  anotherGalaxySelected 
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [selectedStarSystem, setSelectedStarSystem] = useState<StarSystem | null>(null);
   const [zoomLevel, setZoomLevel] = useState(1);
   const [showStarSystems, setShowStarSystems] = useState(false);
   const [galaxyFade, setGalaxyFade] = useState(1);
+  const [isZoomedIn, setIsZoomedIn] = useState(false);
 
   const handleStarSystemClick = (starSystem: StarSystem) => {
     setSelectedStarSystem(starSystem);
@@ -37,20 +45,21 @@ export const GalaxyComponent: React.FC<GalaxyProps> = ({
   useEffect(() => {
     if (isSelected) {
       let fadeTimeout: NodeJS.Timeout;
-      // Animation de zoom rapide
+      // Faster zoom animation with a slow start
       const zoomInterval = setInterval(() => {
         setZoomLevel(prev => {
           if (prev < 3) {
-            return prev + 0.1;
+            return prev + 0.18; // was 0.1, now faster
           } else {
             clearInterval(zoomInterval);
             // Commencer à faire disparaître la galaxie
-            fadeTimeout = setTimeout(() => setGalaxyFade(0), 200);
+            fadeTimeout = setTimeout(() => setGalaxyFade(0), 150); // slightly faster fade
             setShowStarSystems(true);
+            setIsZoomedIn(true);
             return 3;
           }
         });
-      }, 50);
+      }, 32); // was 50ms, now faster
       return () => {
         clearInterval(zoomInterval);
         clearTimeout(fadeTimeout);
@@ -59,34 +68,57 @@ export const GalaxyComponent: React.FC<GalaxyProps> = ({
       setZoomLevel(1);
       setGalaxyFade(1);
       setShowStarSystems(false);
+      setIsZoomedIn(false);
+      setSelectedStarSystem(null);
     }
   }, [isSelected]);
+
+  // Only show/interact with star systems when zoomed in or a star system is selected
+  const canShowStarSystems = isSelected && (isZoomedIn || selectedStarSystem);
 
   return (
     <div
       className="galaxy-container absolute"
       style={{
-        transform: `translate3d(${galaxy.coordinates.x}px, ${galaxy.coordinates.y}px, ${galaxy.coordinates.z}px) scale(${zoomLevel})`,
+        transform: `${extraTransform ? extraTransform + ' ' : ''}translate3d(${galaxy.coordinates.x}px, ${galaxy.coordinates.y}px, ${galaxy.coordinates.z}px) scale(${zoomLevel})`,
         transformStyle: 'preserve-3d',
         zIndex: isSelected ? 20 : 10,
-        pointerEvents: isSelected || isHovered ? 'auto' : 'auto',
+        pointerEvents: anotherGalaxySelected && !isSelected ? 'none' : 'auto',
+        transition: 'transform 0.45s cubic-bezier(0.6,0,0.2,1)'
       }}
+      onClick={onSelect}
     >
-      {/* Systèmes stellaires en arrière-plan */}
-      <div className="absolute inset-0 flex items-center justify-center z-0" style={{ opacity: showStarSystems ? 1 : 0, transition: 'opacity 0.7s' }}>
-        {showStarSystems && (
-          <div className="relative w-full h-full">
-            {galaxy.starSystems.map((starSystem, index) => (
-              <StarSystemComponent
-                key={starSystem.id}
-                starSystem={starSystem}
-                onClick={() => handleStarSystemClick(starSystem)}
-                isSelected={selectedStarSystem?.id === starSystem.id}
-                galaxyColor={galaxy.color}
-                index={index}
-                totalSystems={galaxy.starSystems.length}
-              />
-            ))}
+      {/* Systèmes stellaires positionnés selon les coordonnées du data */}
+      <div className="absolute inset-0 z-0" style={{ opacity: canShowStarSystems ? 1 : 0, transition: 'opacity 0.7s' }}>
+        {canShowStarSystems && (
+          <div className="relative w-full h-full" style={{height: '180px', width: '180px'}}>
+            {(() => {
+              const discovered = galaxy.starSystems.filter(s => s.discovered);
+              if (discovered.length === 0) return null;
+              // Calculer les coordonnées relatives
+              const relCoords = discovered.map(s => ({
+                x: s.coordinates.x,
+                y: s.coordinates.y
+              }));
+              return discovered.map((starSystem, idx) => {
+                const rel = relCoords[idx];
+                const x = rel.x;
+                const y = rel.y;
+                return (
+                  <div key={starSystem.id} style={{position: 'absolute', top: y, left: x, zIndex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <StarSystemComponent
+                      starSystem={starSystem}
+                      onClick={() => handleStarSystemClick(starSystem)}
+                      isSelected={selectedStarSystem?.id === starSystem.id}
+                      galaxyColor={galaxy.color}
+                      index={idx}
+                      totalSystems={discovered.length}
+                      verticalStacked={false}
+                    />
+                  </div>
+                );
+              });
+            })()}
           </div>
         )}
       </div>
@@ -96,7 +128,6 @@ export const GalaxyComponent: React.FC<GalaxyProps> = ({
         className="galaxy-core relative flex items-center justify-center cursor-pointer transition-all duration-700"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        onClick={onSelect}
         style={{
           width: 180,
           height: 180,
@@ -108,9 +139,9 @@ export const GalaxyComponent: React.FC<GalaxyProps> = ({
         }}
       >
         {/* Bras spiraux et bulbe central */}
-        <div className="absolute inset-0 rounded-full animate-spin-slow" style={{
+        {/* <div className="absolute inset-0 rounded-full animate-spin-slow" style={{
           background: `conic-gradient(from 0deg, transparent 0deg, ${galaxy.color}20 60deg, transparent 120deg, ${galaxy.color}30 180deg, transparent 240deg, ${galaxy.color}20 300deg, transparent 360deg)`
-        }} />
+        }} /> */}
         <div className="absolute inset-4 rounded-full" style={{
           background: `radial-gradient(circle, ${galaxy.color}40 0%, ${galaxy.color}20 40%, transparent 70%)`,
           boxShadow: `inset 0 0 30px ${galaxy.color}20`
@@ -148,36 +179,18 @@ export const GalaxyComponent: React.FC<GalaxyProps> = ({
           );
         })}
       </div>
-
-      {/* Particules de voyage spatial pendant le zoom */}
-      {isSelected && zoomLevel > 1 && zoomLevel < 3 && (
-        <div className="absolute inset-0 z-5 pointer-events-none">
-          {Array.from({ length: 30 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-white rounded-full space-travel-particle"
-              style={{
-                left: `${50 + (i % 10 - 5) * 10}%`,
-                top: `${50 + (Math.floor(i / 10) - 1) * 10}%`,
-                animationDelay: `${i * 0.1}s`,
-                animationDuration: `${1.5 + (i % 3) * 0.5}s`,
-                opacity: 0.4 + (i % 6) * 0.1
-              }}
-            />
-          ))}
-        </div>
-      )}
     </div>
   );
 };
 
-export const StarSystemComponent: React.FC<StarSystemProps & { index: number; totalSystems: number }> = ({ 
+export const StarSystemComponent: React.FC<StarSystemProps> = ({ 
   starSystem, 
-  onClick, 
+  onClick,
   isSelected, 
   galaxyColor,
   index,
-  totalSystems
+  totalSystems,
+  verticalStacked
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -186,42 +199,34 @@ export const StarSystemComponent: React.FC<StarSystemProps & { index: number; to
     return null;
   }
 
-  // Placement circulaire autour du centre
-  const angle = (index / totalSystems) * 2 * Math.PI;
-  const radius = 120;
-  const x = 90 + radius * Math.cos(angle);
-  const y = 90 + radius * Math.sin(angle);
-
   return (
     <div
-      className="absolute cursor-pointer transition-all duration-500"
+      className="cursor-pointer transition-all duration-500"
       style={{
-        left: `${x}px`,
-        top: `${y}px`,
         zIndex: 1,
         transform: `scale(${isSelected ? 1.2 : 1})`
       }}
+      onClick={onClick}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onClick={onClick}
     >
       {/* Star System Core */}
       <div
-        className={`w-6 h-6 rounded-full transition-all duration-300 ${
+        className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
           isSelected ? 'animate-pulse' : ''
         }`}
         style={{
           background: `radial-gradient(circle, ${starSystem.color} 0%, ${starSystem.color}80 50%, transparent 100%)`,
           boxShadow: isHovered || isSelected
-            ? `0 0 20px ${starSystem.color}80, 0 0 40px ${starSystem.color}40`
-            : `0 0 10px ${starSystem.color}60, 0 0 20px ${starSystem.color}30`
+            ? `0 0 6px ${starSystem.color}80, 0 0 12px ${starSystem.color}40`
+            : `0 0 3px ${starSystem.color}60, 0 0 6px ${starSystem.color}30`
         }}
       >
         <div className="w-full h-full rounded-full bg-white/20 animate-ping"></div>
       </div>
-      {/* Star System Name - Centré sur le système */}
-      <div className="absolute inset-0 flex items-center justify-center z-30 pointer-events-none">
-        <div className="px-3 py-1 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white font-mono text-xs whitespace-nowrap">
+      {/* Star System Name - Even smaller */}
+      <div className="absolute left-1/2 top-full mt-0.5 -translate-x-1/2 z-30 pointer-events-none">
+        <div className="px-1.5 py-0.5 rounded bg-white/10 backdrop-blur-sm border border-white/20 text-white font-mono text-[10px] whitespace-nowrap shadow-lg">
           {starSystem.name}
         </div>
       </div>

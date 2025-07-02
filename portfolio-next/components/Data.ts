@@ -41,7 +41,7 @@ export const galaxies: Galaxy[] = [
     description: "A vast galaxy containing star systems representing my educational path through various institutions and degrees.",
     color: "#4A90E2",
     discovered: true,
-    coordinates: { x: 0, y: 0, z: 0 },
+    coordinates: { x: 200, y: 100, z: 0 },
     starSystems: [
       {
         id: "dut-system",
@@ -51,7 +51,7 @@ export const galaxies: Galaxy[] = [
         description: "DUT Informatique at IUT Orsay - Paris Saclay. Specialized in web development and applications.",
         technologies: ["Java", "Web Development", "Databases"],
         achievements: ["Diploma obtained", "Web development specialization"],
-        coordinates: { x: 100, y: 50, z: 25 },
+        coordinates: { x: 10, y: 50, z: 25 },
         discovered: true,
         color: "#64B5F6"
       },
@@ -63,7 +63,7 @@ export const galaxies: Galaxy[] = [
         description: "Engineering School at Polytech Paris Saclay. Focus on AI and systems engineering.",
         technologies: ["AI", "Machine Learning", "Systems Engineering"],
         achievements: ["Engineering degree", "AI specialization"],
-        coordinates: { x: 200, y: 75, z: 50 },
+        coordinates: { x: 80, y: 100, z: 50 },
         discovered: true,
         color: "#42A5F5"
       },
@@ -75,7 +75,7 @@ export const galaxies: Galaxy[] = [
         description: "Bachelor Universitaire de Technologie at IUT Orsay - Paris Saclay. Computer science and networks.",
         technologies: ["Networks", "Computer Science", "Advanced Programming"],
         achievements: ["BUT degree", "Network specialization"],
-        coordinates: { x: 150, y: 100, z: 75 },
+        coordinates: { x: 150, y: 20, z: 75 },
         discovered: true,
         color: "#2196F3"
       },
@@ -87,7 +87,7 @@ export const galaxies: Galaxy[] = [
         description: "Master 1 in Artificial Intelligence and Data Science at URCA - Reims.",
         technologies: ["AI", "Data Science", "Machine Learning", "Deep Learning"],
         achievements: ["Master's degree in progress", "AI specialization"],
-        coordinates: { x: 250, y: 125, z: 100 },
+        coordinates: { x: 200, y: 70, z: 100 },
         discovered: true,
         color: "#1976D2"
       }
@@ -101,7 +101,7 @@ export const galaxies: Galaxy[] = [
     description: "A dynamic galaxy showcasing my professional experiences through various internships and research positions.",
     color: "#FF6B6B",
     discovered: true,
-    coordinates: { x: 500, y: 0, z: 0 },
+    coordinates: { x: 500, y: 450, z: 0 },
     starSystems: [
       {
         id: "cnrs-flight-system",
@@ -173,7 +173,7 @@ export const galaxies: Galaxy[] = [
     description: "A creative galaxy containing personal projects, research initiatives, and innovative developments.",
     color: "#4CAF50",
     discovered: true,
-    coordinates: { x: 0, y: 500, z: 0 },
+    coordinates: { x: 920, y: 180, z: 0 },
     starSystems: [
       {
         id: "ai-research-system",

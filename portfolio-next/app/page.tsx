@@ -18,35 +18,11 @@ export default function Home() {
   const subText = theme === "light" ? "text-white/70" : "text-white/70";
 
   const handleGalaxySelect = (galaxyId: string) => {
-    setSelectedGalaxy(selectedGalaxy === galaxyId ? null : galaxyId);
-  };
-
-  // Placement personnalisé pour 3 galaxies : haut, bas gauche, bas droite
-  const getGalaxyPosition = (index: number, total: number) => {
-    if (total === 3) {
-      if (index === 0) {
-        // En haut, centré
-        return { x: 180, y: 80, z: 0 };
-      } else if (index === 1) {
-        // Bas gauche
-        return { x: 400, y: 420, z: 0 };
-      } else if (index === 2) {
-        // Bas droite, même hauteur que la 2e mais bien plus à droite
-        return { x: 920, y: 230, z: 0 };
-      }
-    }
-    // Fallback : cercle dispersé
-    const centerX = 400;
-    const centerY = 200;
-    const rand = (Math.sin(index * 999) + 1) / 2;
-    const angle = (index / total) * 2 * Math.PI + rand * 0.5 - Math.PI / 2;
-    const baseRadius = 270;
-    const radius = baseRadius + rand * 60;
-    return {
-      x: Math.round(Math.cos(angle) * radius + centerX),
-      y: Math.round(Math.sin(angle) * radius + centerY),
-      z: 0
-    };
+    // Prevent deselecting if a star system is selected (modal open)
+    if (isModalOpen) return;
+    // Prevent unzooming by clicking the selected galaxy
+    if (selectedGalaxy === galaxyId) return;
+    setSelectedGalaxy(galaxyId);
   };
 
   const handleStarSystemClick = (starSystem: StarSystem) => {
@@ -57,6 +33,8 @@ export default function Home() {
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedStarSystem(null);
+    // Do not deselect the galaxy here, so focus remains
+    // setSelectedGalaxy(null);
   };
 
   // Camera movement effect - partagé entre les galaxies et les étoiles
@@ -70,6 +48,24 @@ export default function Home() {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
+
+  // Calculate center of the galaxy map area
+  const mapWidth = 1000; // adjust as needed
+  const mapHeight = 600;
+  const centerX = mapWidth / 2;
+  const centerY = mapHeight / 2;
+
+  // Calculate offset to center the selected galaxy
+  let focusOffset = { x: 0, y: 0 };
+  if (selectedGalaxy) {
+    const galaxy = galaxies.find(g => g.id === selectedGalaxy);
+    if (galaxy) {
+      focusOffset = {
+        x: centerX - galaxy.coordinates.x,
+        y: centerY - galaxy.coordinates.y
+      };
+    }
+  }
 
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-b from-[#0a0a23] to-[#1a1a4a] transition-colors duration-500">
@@ -159,18 +155,43 @@ export default function Home() {
                 transformStyle: 'preserve-3d'
               }}
             >
-              {galaxies.map((galaxy, idx) => {
-                const position = getGalaxyPosition(idx, galaxies.length);
+              {(selectedGalaxy || isModalOpen) && (
+                <button
+                  className="absolute top-4 right-8 z-30 px-4 py-2 rounded-lg bg-white/20 hover:bg-white/40 text-black font-mono font-bold shadow-lg border border-white/30 transition-all"
+                  onClick={() => {
+                    setSelectedGalaxy(null);
+                    setIsModalOpen(false);
+                    setSelectedStarSystem(null);
+                  }}
+                >
+                  ⬅️ Zoom Out
+                </button>
+              )}
+              {galaxies.map((galaxy) => {
+                // Calculate transform for each galaxy
+                let transform = '';
+                let anotherGalaxySelected = false;
+                if (selectedGalaxy) {
+                  if (galaxy.id === selectedGalaxy) {
+                    // Move selected galaxy to center
+                    transform = `translate(${focusOffset.x}px, ${focusOffset.y}px) scale(1.2)`;
+                  } else {
+                    // Move other galaxies away from the center, proportional to their distance from the selected galaxy
+                    const dx = galaxy.coordinates.x - (galaxies.find(g => g.id === selectedGalaxy)?.coordinates.x || 0);
+                    const dy = galaxy.coordinates.y - (galaxies.find(g => g.id === selectedGalaxy)?.coordinates.y || 0);
+                    transform = `translate(${focusOffset.x + dx * 1.5}px, ${focusOffset.y + dy * 1.5}px) scale(0.8)`;
+                    anotherGalaxySelected = true;
+                  }
+                }
                 return (
                   <GalaxyComponent
                     key={galaxy.id}
-                    galaxy={{
-                      ...galaxy,
-                      coordinates: position
-                    }}
+                    galaxy={galaxy}
                     onStarSystemClick={handleStarSystemClick}
                     isSelected={selectedGalaxy === galaxy.id}
                     onSelect={() => handleGalaxySelect(galaxy.id)}
+                    extraTransform={transform}
+                    anotherGalaxySelected={anotherGalaxySelected}
                   />
                 );
               })}
@@ -181,9 +202,7 @@ export default function Home() {
               {galaxies.map((galaxy) => (
                 <div 
                   key={galaxy.id}
-                  className={`p-6 rounded-2xl backdrop-blur-md border border-white/10 transition-all duration-300 cursor-pointer ${
-                    selectedGalaxy === galaxy.id ? 'bg-white/10 scale-105' : 'bg-white/5 hover:bg-white/8'
-                  }`}
+                  className={"p-6 rounded-2xl backdrop-blur-md border border-white/10 transition-all duration-300 cursor-pointer bg-white/5 hover:bg-white/8"}
                   onClick={() => handleGalaxySelect(galaxy.id)}
                 >
                   <div className="flex items-center gap-4 mb-4">
