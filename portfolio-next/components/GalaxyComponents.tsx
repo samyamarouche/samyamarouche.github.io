@@ -46,40 +46,81 @@ export const GalaxyComponent: React.FC<GalaxyProps> = ({
         </span>
       </div>
 
-      {/* Galaxy Core */}
+      {/* Galaxy Core - Vraie apparence de galaxie */}
       <div
-        className={`galaxy-core relative cursor-pointer transition-all duration-700 ${
-          isSelected ? 'animate-pulse' : ''
-        }`}
+        className="galaxy-core relative cursor-pointer transition-all duration-700"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={onSelect}
-        style={{
-          background: `radial-gradient(circle, ${galaxy.color}40 0%, ${galaxy.color}20 50%, transparent 100%)`,
-          boxShadow: isHovered || isSelected 
-            ? `0 0 60px ${galaxy.color}60, 0 0 120px ${galaxy.color}30` 
-            : `0 0 30px ${galaxy.color}40, 0 0 60px ${galaxy.color}20`
-        }}
       >
-        <div className="w-32 h-32 rounded-full flex items-center justify-center">
+        {/* Galaxie spirale avec plusieurs couches */}
+        <div className="relative w-40 h-40">
+          {/* Couche externe - bras spiraux */}
           <div 
-            className="w-24 h-24 rounded-full bg-gradient-to-br from-white/20 to-transparent backdrop-blur-sm border border-white/30"
+            className="absolute inset-0 rounded-full animate-spin-slow"
             style={{
-              background: `radial-gradient(circle, ${galaxy.color}60 0%, ${galaxy.color}30 50%, transparent 100%)`
+              background: `conic-gradient(from 0deg, transparent 0deg, ${galaxy.color}20 60deg, transparent 120deg, ${galaxy.color}30 180deg, transparent 240deg, ${galaxy.color}20 300deg, transparent 360deg)`,
+              boxShadow: isHovered || isSelected 
+                ? `0 0 80px ${galaxy.color}40, 0 0 160px ${galaxy.color}20` 
+                : `0 0 40px ${galaxy.color}30, 0 0 80px ${galaxy.color}15`
+            }}
+          />
+          
+          {/* Couche intermédiaire - bulbe central */}
+          <div 
+            className="absolute inset-4 rounded-full"
+            style={{
+              background: `radial-gradient(circle, ${galaxy.color}40 0%, ${galaxy.color}20 40%, transparent 70%)`,
+              boxShadow: `inset 0 0 30px ${galaxy.color}20`
+            }}
+          />
+          
+          {/* Noyau central - trou noir/supernova */}
+          <div 
+            className="absolute inset-8 rounded-full flex items-center justify-center"
+            style={{
+              background: `radial-gradient(circle, ${galaxy.color}60 0%, ${galaxy.color}40 30%, ${galaxy.color}20 60%, transparent 100%)`,
+              boxShadow: `0 0 20px ${galaxy.color}50, inset 0 0 15px ${galaxy.color}30`
             }}
           >
-            <div className="w-full h-full rounded-full flex items-center justify-center">
-              <span className="text-white/90 font-bold text-sm text-center leading-tight">
+            <div className="w-8 h-8 rounded-full bg-black/50 flex items-center justify-center">
+              <span className="text-white/90 font-bold text-xs">
                 {galaxy.name.split(' ').map(word => word[0]).join('')}
               </span>
             </div>
           </div>
+
+          {/* Particules stellaires autour de la galaxie - Valeurs déterministes */}
+          {Array.from({ length: 8 }).map((_, i) => {
+            // Utiliser des valeurs déterministes basées sur l'index pour éviter l'erreur d'hydratation
+            const angle = (i * Math.PI) / 4;
+            const radius = 35;
+            const left = 50 + radius * Math.cos(angle);
+            const top = 50 + radius * Math.sin(angle);
+            const animationDelay = i * 0.5;
+            const animationDuration = 2 + (i % 3) + 0.5; // Valeurs déterministes
+            const opacity = 0.6 + (i % 4) * 0.1; // Valeurs déterministes
+            
+            return (
+              <div
+                key={i}
+                className="absolute w-1 h-1 bg-white rounded-full animate-pulse"
+                style={{
+                  left: `${left}%`,
+                  top: `${top}%`,
+                  animationDelay: `${animationDelay}s`,
+                  animationDuration: `${animationDuration}s`,
+                  opacity: opacity
+                }}
+              />
+            );
+          })}
         </div>
 
-        {/* Galaxy Name Tooltip */}
+        {/* Galaxy Name Tooltip - Style gris comme le bouton de thème */}
         {isHovered && (
           <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 z-30">
-            <div className="bg-black/80 backdrop-blur-md text-white text-sm px-3 py-2 rounded-lg whitespace-nowrap">
+            <div className="px-4 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white font-mono text-sm whitespace-nowrap">
               {galaxy.name}
             </div>
           </div>
@@ -159,10 +200,10 @@ export const StarSystemComponent: React.FC<StarSystemProps> = ({
         <div className="w-full h-full rounded-full bg-white/20 animate-ping"></div>
       </div>
 
-      {/* Star System Name */}
+      {/* Star System Name - Style gris comme le bouton de thème */}
       {isHovered && (
         <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 z-30">
-          <div className="bg-black/80 backdrop-blur-md text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+          <div className="px-3 py-1 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white font-mono text-xs whitespace-nowrap">
             {starSystem.name}
           </div>
         </div>

@@ -49,16 +49,7 @@ body {
   50% { opacity: 1; transform: scale(1.2); }
 }
 
-@keyframes galaxyPulse {
-  0%, 100% { 
-    box-shadow: 0 0 30px currentColor, 0 0 60px currentColor;
-    transform: scale(1);
-  }
-  50% { 
-    box-shadow: 0 0 50px currentColor, 0 0 100px currentColor;
-    transform: scale(1.05);
-  }
-}
+/* Animation galaxyPulse supprimée pour éviter le halo blanc */
 
 @keyframes starSystemGlow {
   0%, 100% { 
@@ -73,6 +64,38 @@ body {
   0% { transform: translateX(0px) translateY(0px); }
   50% { transform: translateX(10px) translateY(-5px); }
   100% { transform: translateX(0px) translateY(0px); }
+}
+
+/* ===== GALAXY ROTATION ANIMATION ===== */
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* ===== GALAXY SPECIFIC STYLES ===== */
+.galaxy-core {
+  /* Animation supprimée pour éviter les rectangles géants */
+}
+
+.galaxy-core:hover {
+  animation: galaxyPulse 2s ease-in-out infinite;
+}
+
+/* ===== STAR SYSTEM STYLES ===== */
+.star-system {
+  animation: starTwinkle 3s ease-in-out infinite;
+}
+
+.star-system:hover {
+  animation: starSystemGlow 1s ease-in-out infinite;
 }
 
 /* ===== GLASSMORPHISM EFFECTS ===== */
@@ -208,24 +231,6 @@ html.dark .glass:hover::before {
     var(--dark-glass-hover-shine-4) 100%);
   filter: blur(18px) saturate(200%);
   animation: glassShine 4s linear infinite;
-}
-
-/* ===== GALAXY SPECIFIC STYLES ===== */
-.galaxy-core {
-  animation: spaceDrift 8s ease-in-out infinite;
-}
-
-.galaxy-core:hover {
-  animation: galaxyPulse 2s ease-in-out infinite;
-}
-
-/* ===== STAR SYSTEM STYLES ===== */
-.star-system {
-  animation: starTwinkle 3s ease-in-out infinite;
-}
-
-.star-system:hover {
-  animation: starSystemGlow 1s ease-in-out infinite;
 }
 
 /* ===== BACKGROUND EFFECTS ===== */
