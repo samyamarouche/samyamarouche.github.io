@@ -35,7 +35,7 @@ body {
 
 .galaxy-container {
   transform-style: preserve-3d;
-  transition: transform 0.5s ease-out;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .galaxy-core {
@@ -78,6 +78,48 @@ body {
 
 .animate-spin-slow {
   animation: spin-slow 20s linear infinite;
+}
+
+/* ===== ZOOM EFFECTS ===== */
+@keyframes zoomIn {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(3);
+  }
+}
+
+@keyframes spaceTravel {
+  0% {
+    transform: translateX(-100px) translateY(-100px) scale(0);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100px) translateY(100px) scale(1);
+    opacity: 0;
+  }
+}
+
+.space-travel-particle {
+  animation: spaceTravel 2s linear infinite;
+}
+
+/* ===== TEMPORAL CONNECTION LINES ===== */
+@keyframes temporalFlow {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -10;
+  }
+}
+
+.temporal-line {
+  animation: temporalFlow 2s linear infinite;
 }
 
 /* ===== GALAXY SPECIFIC STYLES ===== */

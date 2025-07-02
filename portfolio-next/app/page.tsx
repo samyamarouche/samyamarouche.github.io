@@ -21,6 +21,34 @@ export default function Home() {
     setSelectedGalaxy(selectedGalaxy === galaxyId ? null : galaxyId);
   };
 
+  // Placement personnalisé pour 3 galaxies : haut, bas gauche, bas droite
+  const getGalaxyPosition = (index: number, total: number) => {
+    if (total === 3) {
+      if (index === 0) {
+        // En haut, centré
+        return { x: 180, y: 80, z: 0 };
+      } else if (index === 1) {
+        // Bas gauche
+        return { x: 400, y: 420, z: 0 };
+      } else if (index === 2) {
+        // Bas droite, même hauteur que la 2e mais bien plus à droite
+        return { x: 920, y: 230, z: 0 };
+      }
+    }
+    // Fallback : cercle dispersé
+    const centerX = 400;
+    const centerY = 200;
+    const rand = (Math.sin(index * 999) + 1) / 2;
+    const angle = (index / total) * 2 * Math.PI + rand * 0.5 - Math.PI / 2;
+    const baseRadius = 270;
+    const radius = baseRadius + rand * 60;
+    return {
+      x: Math.round(Math.cos(angle) * radius + centerX),
+      y: Math.round(Math.sin(angle) * radius + centerY),
+      z: 0
+    };
+  };
+
   const handleStarSystemClick = (starSystem: StarSystem) => {
     setSelectedStarSystem(starSystem);
     setIsModalOpen(true);
@@ -131,15 +159,21 @@ export default function Home() {
                 transformStyle: 'preserve-3d'
               }}
             >
-              {galaxies.map((galaxy) => (
-                <GalaxyComponent
-                  key={galaxy.id}
-                  galaxy={galaxy}
-                  onStarSystemClick={handleStarSystemClick}
-                  isSelected={selectedGalaxy === galaxy.id}
-                  onSelect={() => handleGalaxySelect(galaxy.id)}
-                />
-              ))}
+              {galaxies.map((galaxy, idx) => {
+                const position = getGalaxyPosition(idx, galaxies.length);
+                return (
+                  <GalaxyComponent
+                    key={galaxy.id}
+                    galaxy={{
+                      ...galaxy,
+                      coordinates: position
+                    }}
+                    onStarSystemClick={handleStarSystemClick}
+                    isSelected={selectedGalaxy === galaxy.id}
+                    onSelect={() => handleGalaxySelect(galaxy.id)}
+                  />
+                );
+              })}
             </div>
 
             {/* Galaxy Legend */}

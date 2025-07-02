@@ -33,6 +33,7 @@ export interface Galaxy {
 }
 
 export const galaxies: Galaxy[] = [
+  // 1. Education (en haut)
   {
     id: "education-galaxy",
     name: "Galaxy of Knowledge",
@@ -65,8 +66,8 @@ export const galaxies: Galaxy[] = [
         coordinates: { x: 200, y: 75, z: 50 },
         discovered: true,
         color: "#42A5F5"
-  },
-  { 
+      },
+      {
         id: "but-system",
         name: "BUT Nebula",
         type: "education",
@@ -77,8 +78,8 @@ export const galaxies: Galaxy[] = [
         coordinates: { x: 150, y: 100, z: 75 },
         discovered: true,
         color: "#2196F3"
-  },
-  { 
+      },
+      {
         id: "master-system",
         name: "Master's Constellation",
         type: "education",
@@ -92,6 +93,7 @@ export const galaxies: Galaxy[] = [
       }
     ]
   },
+  // 2. Stages (en bas à droite)
   {
     id: "internship-galaxy",
     name: "Galaxy of Experience",
@@ -112,8 +114,8 @@ export const galaxies: Galaxy[] = [
         coordinates: { x: 600, y: 50, z: 25 },
         discovered: true,
         color: "#FF8A80"
-  },
-  { 
+      },
+      {
         id: "cnrs-prediction-system",
         name: "Prediction Nebula",
         type: "internship",
@@ -148,8 +150,8 @@ export const galaxies: Galaxy[] = [
         coordinates: { x: 750, y: 125, z: 100 },
         discovered: true,
         color: "#B71C1C"
-  },
-  { 
+      },
+      {
         id: "cnrs-final-system",
         name: "Final Deployment Star",
         type: "internship",
@@ -163,6 +165,7 @@ export const galaxies: Galaxy[] = [
       }
     ]
   },
+  // 3. Projets (en bas à gauche)
   {
     id: "projects-galaxy",
     name: "Galaxy of Innovation",
@@ -183,8 +186,8 @@ export const galaxies: Galaxy[] = [
         coordinates: { x: 100, y: 550, z: 25 },
         discovered: true,
         color: "#66BB6A"
-  },
-  { 
+      },
+      {
         id: "weather-simulation-system",
         name: "Weather Simulation Star",
         type: "project",
