@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Portfolio Design System - Weather & Cosmic Themes */
+
+@layer base {
+  :root {
+    /* Light Theme - Weather/Cloud */
+    --background: 210 40% 98%;
+    --foreground: 215 25% 27%;
+
+    --card: 210 40% 99%;
+    --card-foreground: 215 25% 27%;
+
+    --popover: 210 40% 99%;
+    --popover-foreground: 215 25% 27%;
+
+    --primary: 207 90% 54%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 200 30% 93%;
+    --secondary-foreground: 215 25% 27%;
+
+    --muted: 205 20% 90%;
+    --muted-foreground: 215 15% 45%;
+
+    --accent: 195 85% 41%;
+    --accent-foreground: 210 40% 98%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 207 90% 54%;
+
+    --radius: 0.75rem;
+
+    /* Weather Theme Custom Variables */
+    --sky-light: 200 100% 94%;
+    --sky-medium: 207 90% 54%;
+    --sky-deep: 215 84% 32%;
+    --cloud: 210 15% 96%;
+    --cloud-shadow: 210 10% 85%;
+    
+    /* Gradients */
+    --gradient-sky: linear-gradient(135deg, hsl(var(--sky-light)), hsl(var(--sky-medium)));
+    --gradient-cloud: linear-gradient(180deg, hsl(var(--cloud)), hsl(var(--cloud-shadow)));
+    --gradient-atmosphere: linear-gradient(to bottom, hsl(var(--sky-light)), hsl(var(--background)));
+
+    /* Shadows */
+    --shadow-cloud: 0 4px 20px hsl(var(--sky-medium) / 0.15);
+    --shadow-card: 0 8px 32px hsl(var(--sky-medium) / 0.08);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-cloud: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark Mode: pastel purple-blue/pink gradient background, black cards, white text, dark purple accents */
+    --background: 255 40% 2%; /* was 18%, now darker */
+    --foreground: 0 0% 100%; /* #fff */
+    --card: 250 15% 10%; /* #18181c */
+    --card-foreground: 0 0% 100%; /* #fff */
+    --border: 270 30% 25%; /* #3a2956 */
+    --primary: 270 60% 70%; /* pastel purple */
+    --primary-foreground: 0 0% 100%;
+    --accent: 300 60% 70%; /* pastel pink-purple */
+    --accent-foreground: 0 0% 100%;
+
+    --popover: 270 35% 18%;
+    --popover-foreground: 315 25% 92%;
+
+    --secondary: 270 30% 22%;
+    --secondary-foreground: 315 25% 92%;
+
+    --muted: 265 25% 20%;
+    --muted-foreground: 315 15% 70%;
+
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 315 25% 92%;
+
+    --input: 270 25% 25%;
+    --ring: 320 75% 68%;
+
+    /* Magical Cosmic Theme Variables */
+    --nebula-purple: 280 70% 65%;
+    --nebula-pink: 320 75% 68%;
+    --nebula-rose: 340 80% 70%;
+    --cosmic-lavender: 260 60% 70%;
+    --deep-space: 260 45% 15%;
+    --cosmic-blue: 240 65% 60%;
+    --star-glow: 45 100% 85%;
+    
+    /* Magical Gradients */
+    --gradient-nebula: linear-gradient(135deg, hsl(var(--nebula-purple)), hsl(var(--nebula-pink)), hsl(var(--nebula-rose)));
+    --gradient-cosmos: linear-gradient(180deg, hsl(var(--deep-space)), hsl(var(--cosmic-lavender) / 0.2));
+    --gradient-stellar: linear-gradient(45deg, hsl(var(--background)), hsl(var(--nebula-pink) / 0.15), hsl(var(--cosmic-lavender) / 0.1));
+    --gradient-magic: linear-gradient(120deg, hsl(var(--nebula-purple) / 0.3), hsl(var(--nebula-pink) / 0.2), hsl(var(--nebula-rose) / 0.3));
+
+    /* Magical Shadows */
+    --shadow-stellar: 0 4px 20px hsl(var(--nebula-pink) / 0.25);
+    --shadow-cosmic: 0 8px 32px hsl(var(--cosmic-lavender) / 0.2);
+    --shadow-magic: 0 12px 40px hsl(var(--nebula-rose) / 0.3);
+    
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-stellar: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    --sidebar-background: 270 35% 18%;
+    --sidebar-foreground: 315 25% 92%;
+    --sidebar-primary: 320 75% 68%;
+    --sidebar-primary-foreground: 260 45% 15%;
+    --sidebar-accent: 270 30% 22%;
+    --sidebar-accent-foreground: 315 25% 92%;
+    --sidebar-border: 270 25% 25%;
+    --sidebar-ring: 320 75% 68%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-inter transition-colors duration-300;
+  }
+  body.no-theme-transition, body.no-theme-transition * {
+    transition: none !important;
+  }
+}
+
+@layer components {
+  .cloud-float {
+    animation: cloudFloat 20s infinite linear;
+  }
+  
+  .star-twinkle {
+    animation: starTwinkle 3s infinite ease-in-out;
+  }
+  
+  .weather-card {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(25px);
+    border: 2px solid #38bdf8;
+    box-shadow: 0 8px 32px rgba(59, 130, 246, 0.08), 0 4px 16px rgba(236, 72, 153, 0.04), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    transition: var(--transition-cloud);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .cosmic-card {
+    background: rgba(55, 65, 81, 0.3);
+    backdrop-filter: blur(25px);
+    border: 1px solid rgba(156, 163, 175, 0.2);
+    box-shadow: 0 8px 32px rgba(107, 114, 128, 0.1), 0 4px 16px rgba(240, 171, 252, 0.05), 0 0 0 1px rgba(156, 163, 175, 0.08), inset 0 1px 0 rgba(156, 163, 175, 0.15);
+    transition: var(--transition-stellar);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Starfield background for dark mode */
+  .starfield {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    overflow: hidden;
+  }
+  .starfield-star {
+    position: absolute;
+    border-radius: 9999px;
+    background: hsl(var(--star-glow));
+    opacity: 0.7;
+    animation: starTwinkle 3s infinite ease-in-out;
+  }
+  .dark .starfield {
+    display: block;
+  }
+  .starfield {
+    display: none;
+  }
+
+  .dark .cosmic-card {
+    border: 2px solid rgba(255,255,255,0.8);
+    box-shadow: 0 0 12px 2px rgba(255,255,255,0.18);
+  }
+}
+
+@layer utilities {
+  .bg-gradient-sky {
+    background: var(--gradient-sky);
+  }
+  
+  .bg-gradient-nebula {
+    background: var(--gradient-nebula);
+  }
+  
+  .bg-gradient-atmosphere {
+    background: var(--gradient-atmosphere);
+  }
+  
+  .bg-gradient-cosmos {
+    background: var(--gradient-cosmos);
+  }
+}
+
+@keyframes cloudFloat {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100vw); }
+}
+
+@keyframes starTwinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
