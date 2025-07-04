@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="refresh" content="0; url=/" />
+    <script>
+      // Redirection JS pour les routes profondes
+      var l = window.location;
+      var path = l.pathname.replace(/^\//, "");
+      if (path) {
+        window.location.replace("/#" + l.pathname + l.search + l.hash);
+      } else {
+        window.location.replace("/");
+      }
+    </script>
+  </head>
+  <body>
+    <p>Redirection…</p>
+  </body>
+</html> 
