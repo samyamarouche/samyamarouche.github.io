@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 // Music cover class/interface and mock data
@@ -52,6 +53,7 @@ const SLIDE_SPEED = 0.5; // px per frame
 
 const MusicPage = () => {
   const { language } = useLanguage();
+  const { theme } = useTheme();
   const [selected, setSelected] = useState<MusicCover | null>(null);
   const sliderRef = useRef<HTMLDivElement>(null);
 
@@ -143,8 +145,10 @@ const MusicPage = () => {
       </section>
       <section className="py-20 px-4 bg-background">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold mb-6 text-foreground">{language === 'fr' ? 'À propos de cette section' : 'About this section'}</h2>
-          <p className="text-muted-foreground mb-4">
+          <h2 className={`text-3xl font-bold mb-6 ${theme === 'cosmic' ? 'text-cyan-200' : 'text-indigo-700'}`} style={{ fontFamily: 'Playfair Display, serif' }}>
+            {language === 'fr' ? 'À propos de cette section' : 'About this section'}
+          </h2>
+          <p className={`text-lg mb-4 ${theme === 'cosmic' ? 'text-gray-300' : 'text-gray-700'}`} style={{ fontFamily: 'Inter, sans-serif' }}>
             {language === 'fr'
               ? "Bienvenue dans ma collection musicale ! Faites défiler vers le bas pour en savoir plus sur mes goûts, mes inspirations et mes créations."
               : "Welcome to my music collection! Scroll down to learn more about my tastes, inspirations, and creations."}
